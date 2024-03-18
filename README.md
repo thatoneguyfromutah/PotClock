@@ -19,4 +19,10 @@ https://www.reddit.com/r/greencleanandserene
 Ask The Angels A Question Siri Shortcut:
 https://www.icloud.com/shortcuts/6e680aa8764a49ebbd7565c4c814219c
 
+App Store Page:
+https://apps.apple.com/us/app/potclock/id1498130819
+
+TestFlight Beta:
+https://testflight.apple.com/join/ivCR0RIe
+
 Please use this code for inspiration, but do not simply copy and paste per say, plagiarism is not cool.
