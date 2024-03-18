@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21H1015" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StoredLimit" representedClassName="StoredLimit" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryString" optional="YES" attributeType="String" allowsCloudEncryption="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" allowsCloudEncryption="YES" usesScalarValueType="NO"/>
+        <attribute name="days" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" allowsCloudEncryption="YES" customClassName="[Log]"/>
+        <attribute name="iconName" optional="YES" attributeType="String" allowsCloudEncryption="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" allowsCloudEncryption="YES"/>
+        <attribute name="timingString" optional="YES" attributeType="String" allowsCloudEncryption="YES"/>
+        <attribute name="totalUnits" optional="YES" attributeType="String" allowsCloudEncryption="YES" customClassName="Decimal"/>
+        <attribute name="unitsLogged" optional="YES" attributeType="String" allowsCloudEncryption="YES" customClassName="Decimal"/>
+        <attribute name="unitsName" optional="YES" attributeType="String" allowsCloudEncryption="YES"/>
+    </entity>
+    <entity name="StoredTip" representedClassName="StoredTip" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="String" allowsCloudEncryption="YES" customClassName="Decimal"/>
+        <attribute name="date" optional="YES" attributeType="Date" allowsCloudEncryption="YES" usesScalarValueType="NO" customClassName=".Time"/>
+    </entity>
+</model>
