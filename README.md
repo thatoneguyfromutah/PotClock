@@ -4,6 +4,9 @@ PotClock 2 is a limit tracking application for working the Green, Clean, and Ser
 
 Built with Xcode Version 14.2 (14C18).
 
+PotClock Twitter by X Profile:
+https://twitter.com/PotClock
+
 My Instagram Blog:
 https://www.instagram.com/utahpatient
 
