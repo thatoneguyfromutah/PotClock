@@ -28,4 +28,4 @@ https://apps.apple.com/us/app/potclock/id1498130819
 TestFlight Beta:
 https://testflight.apple.com/join/ivCR0RIe
 
-Use this code for inspiration, but do not simply copy and paste per se, plagiarism is not cool. I plan to update this GitHub every time I ship an update to PotClock for others to see. If you want to support the developer (that is me) and future development efforts on this app there is a tipping section on the Twitter by X page and in the app on the App Store.
+Use this code for inspiration, but do not simply copy and paste per se, plagiarism is not cool. I plan to update the GitHub every time I ship an update to PotClock for others to see. If you want to support the developer (that is me) and future development efforts on this app there is a tipping section on the Twitter by X page and in the app on the App Store.
