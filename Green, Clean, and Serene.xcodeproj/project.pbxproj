@@ -14,19 +14,19 @@
 		8103680B2B8D1CEC006459B5 /* LogLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8103680A2B8D1CEC006459B5 /* LogLimitViewController.swift */; };
 		8103680E2B912C3F006459B5 /* PotClockModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8103680C2B912C3F006459B5 /* PotClockModel.xcdatamodeld */; };
 		81100EAC2B8FDD3200E1EA2D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81100EAB2B8FDD3200E1EA2D /* StoreKit.framework */; };
-		811AC8442B16ADC5004C642D /* datafileicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811AC8432B16ADC5004C642D /* datafileicon.png */; };
 		811DAE362B02DBEB00667FFF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DAE352B02DBEB00667FFF /* Log.swift */; };
 		811DAE392B059FF400667FFF /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DAE382B059FF400667FFF /* TipsViewController.swift */; };
 		811DAE3B2B05A0AE00667FFF /* TipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DAE3A2B05A0AE00667FFF /* TipTableViewCell.swift */; };
 		811DAE3E2B05BF6400667FFF /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DAE3D2B05BF6400667FFF /* StoreKitManager.swift */; };
 		811DED4D2B1C8E5800D20873 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811DED4C2B1C8E5800D20873 /* Day.swift */; };
 		812872FC2B895F570068F080 /* Green, Clean, and Serene Guide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 812872FB2B895F570068F080 /* Green, Clean, and Serene Guide.pdf */; };
+		814426F72BB933B800928766 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814426F62BB933B800928766 /* PlacesViewController.swift */; };
 		814F9F722B06B60F0090DA0B /* ExportLimitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814F9F712B06B60F0090DA0B /* ExportLimitTableViewCell.swift */; };
 		816BFEE72B10354A00883534 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816BFEE62B10354A00883534 /* Tip.swift */; };
 		817B29732AFAD56C0076B4D0 /* LimitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B29722AFAD56C0076B4D0 /* LimitTableViewCell.swift */; };
 		817B29772AFD98220076B4D0 /* LimitLogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817B29762AFD98220076B4D0 /* LimitLogTableViewCell.swift */; };
+		818545AA2BBA9B9F00FB54DF /* roundlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 818545A92BBA9B9F00FB54DF /* roundlogo.png */; };
 		81BF2E7E2B8F992500493FAD /* PotCryptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF2E7D2B8F992500493FAD /* PotCryptionManager.swift */; };
-		81BF2E802B8FC87900493FAD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BF2E7F2B8FC87900493FAD /* CloudKit.framework */; };
 		81BF2E822B8FCA9100493FAD /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BF2E812B8FCA9100493FAD /* PDFKit.framework */; };
 		81D0FE3B2AF33092000295B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D0FE3A2AF33092000295B2 /* AppDelegate.swift */; };
 		81D0FE3D2AF33092000295B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D0FE3C2AF33092000295B2 /* SceneDelegate.swift */; };
@@ -38,7 +38,6 @@
 		81D0FE6E2AF49051000295B2 /* EditLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D0FE6D2AF49051000295B2 /* EditLimitViewController.swift */; };
 		81D0FE762AF981DC000295B2 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D0FE752AF981DC000295B2 /* IconCollectionViewCell.swift */; };
 		81D4F3682AF98BB700C8A056 /* IconNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 81D4F3672AF98BB700C8A056 /* IconNames.txt */; };
-		81EA2A202B13D9FC006FE759 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EA2A1F2B13D9FC006FE759 /* Time.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +78,6 @@
 		8103680A2B8D1CEC006459B5 /* LogLimitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLimitViewController.swift; sourceTree = "<group>"; };
 		8103680D2B912C3F006459B5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		81100EAB2B8FDD3200E1EA2D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		811AC8432B16ADC5004C642D /* datafileicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = datafileicon.png; sourceTree = "<group>"; };
 		811DAE352B02DBEB00667FFF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		811DAE372B02EF8100667FFF /* Green, Clean, and Serene.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Green, Clean, and Serene.entitlements"; sourceTree = "<group>"; };
 		811DAE382B059FF400667FFF /* TipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsViewController.swift; sourceTree = "<group>"; };
@@ -87,12 +85,13 @@
 		811DAE3D2B05BF6400667FFF /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		811DED4C2B1C8E5800D20873 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		812872FB2B895F570068F080 /* Green, Clean, and Serene Guide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Green, Clean, and Serene Guide.pdf"; sourceTree = "<group>"; };
+		814426F62BB933B800928766 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		814F9F712B06B60F0090DA0B /* ExportLimitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportLimitTableViewCell.swift; sourceTree = "<group>"; };
 		816BFEE62B10354A00883534 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		817B29722AFAD56C0076B4D0 /* LimitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitTableViewCell.swift; sourceTree = "<group>"; };
 		817B29762AFD98220076B4D0 /* LimitLogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitLogTableViewCell.swift; sourceTree = "<group>"; };
+		818545A92BBA9B9F00FB54DF /* roundlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundlogo.png; sourceTree = "<group>"; };
 		81BF2E7D2B8F992500493FAD /* PotCryptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotCryptionManager.swift; sourceTree = "<group>"; };
-		81BF2E7F2B8FC87900493FAD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		81BF2E812B8FCA9100493FAD /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/iOSSupport/System/Library/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		81D0FE372AF33092000295B2 /* PotClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PotClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81D0FE3A2AF33092000295B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +109,6 @@
 		81D0FE6D2AF49051000295B2 /* EditLimitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLimitViewController.swift; sourceTree = "<group>"; };
 		81D0FE752AF981DC000295B2 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		81D4F3672AF98BB700C8A056 /* IconNames.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = IconNames.txt; sourceTree = "<group>"; };
-		81EA2A1F2B13D9FC006FE759 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +118,6 @@
 			files = (
 				81100EAC2B8FDD3200E1EA2D /* StoreKit.framework in Frameworks */,
 				81BF2E822B8FCA9100493FAD /* PDFKit.framework in Frameworks */,
-				81BF2E802B8FC87900493FAD /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +143,6 @@
 			children = (
 				81100EAB2B8FDD3200E1EA2D /* StoreKit.framework */,
 				81BF2E812B8FCA9100493FAD /* PDFKit.framework */,
-				81BF2E7F2B8FC87900493FAD /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,7 +171,7 @@
 		81D0FE392AF33092000295B2 /* Green, Clean, and Serene */ = {
 			isa = PBXGroup;
 			children = (
-				811AC8432B16ADC5004C642D /* datafileicon.png */,
+				818545A92BBA9B9F00FB54DF /* roundlogo.png */,
 				811DAE372B02EF8100667FFF /* Green, Clean, and Serene.entitlements */,
 				812872FB2B895F570068F080 /* Green, Clean, and Serene Guide.pdf */,
 				81D0FE3A2AF33092000295B2 /* AppDelegate.swift */,
@@ -184,7 +180,6 @@
 				811DAE3D2B05BF6400667FFF /* StoreKitManager.swift */,
 				810368062B8D19A8006459B5 /* Limit.swift */,
 				816BFEE62B10354A00883534 /* Tip.swift */,
-				81EA2A1F2B13D9FC006FE759 /* Time.swift */,
 				811DAE352B02DBEB00667FFF /* Log.swift */,
 				811DED4C2B1C8E5800D20873 /* Day.swift */,
 				81D0FE402AF33092000295B2 /* Main.storyboard */,
@@ -199,6 +194,7 @@
 				81004D312B165F9000AF3811 /* GuideViewController.swift */,
 				810368042B8D1887006459B5 /* LimitsDataViewController.swift */,
 				811DAE382B059FF400667FFF /* TipsViewController.swift */,
+				814426F62BB933B800928766 /* PlacesViewController.swift */,
 				817B29722AFAD56C0076B4D0 /* LimitTableViewCell.swift */,
 				81D0FE752AF981DC000295B2 /* IconCollectionViewCell.swift */,
 				817B29762AFD98220076B4D0 /* LimitLogTableViewCell.swift */,
@@ -339,7 +335,7 @@
 				81D0FE4A2AF33093000295B2 /* LaunchScreen.storyboard in Resources */,
 				81D0FE472AF33093000295B2 /* Assets.xcassets in Resources */,
 				81D0FE422AF33092000295B2 /* Main.storyboard in Resources */,
-				811AC8442B16ADC5004C642D /* datafileicon.png in Resources */,
+				818545AA2BBA9B9F00FB54DF /* roundlogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +361,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				810368052B8D1887006459B5 /* LimitsDataViewController.swift in Sources */,
-				81EA2A202B13D9FC006FE759 /* Time.swift in Sources */,
 				81004D322B165F9000AF3811 /* GuideViewController.swift in Sources */,
 				817B29732AFAD56C0076B4D0 /* LimitTableViewCell.swift in Sources */,
 				817B29772AFD98220076B4D0 /* LimitLogTableViewCell.swift in Sources */,
@@ -380,6 +375,7 @@
 				81D0FE3D2AF33092000295B2 /* SceneDelegate.swift in Sources */,
 				81D0FE762AF981DC000295B2 /* IconCollectionViewCell.swift in Sources */,
 				810368092B8D1BD9006459B5 /* LimitsTableViewController.swift in Sources */,
+				814426F72BB933B800928766 /* PlacesViewController.swift in Sources */,
 				81BF2E7E2B8F992500493FAD /* PotCryptionManager.swift in Sources */,
 				8103680B2B8D1CEC006459B5 /* LogLimitViewController.swift in Sources */,
 				816BFEE72B10354A00883534 /* Tip.swift in Sources */,
@@ -559,13 +555,12 @@
 		81D0FE652AF33093000295B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4267;
+				CURRENT_PROJECT_VERSION = 4282;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
@@ -575,7 +570,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaseangelogiles.PotClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -589,13 +584,12 @@
 		81D0FE662AF33093000295B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4267;
+				CURRENT_PROJECT_VERSION = 4282;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
@@ -605,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaseangelogiles.PotClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

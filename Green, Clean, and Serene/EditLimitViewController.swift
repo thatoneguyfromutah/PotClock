@@ -94,7 +94,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     
     enum ButtonBackgroundColors {
         static let ActivatedColor = UIColor.systemGreen
-        static let InactiveColor = UIColor.systemBackground
+        static let InactiveColor = UIColor.systemGray6
     }
     
     enum LimitNameTextFieldPlaceholders {
@@ -107,9 +107,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        isModalInPresentation = true
-        
+                
         // Icons
         
         loadIcons()
@@ -126,10 +124,10 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         // Bar Button Items
         
-        deleteBarButtonItem = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(didTapDelete))
+        deleteBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didTapDelete))
         deleteBarButtonItem.tintColor = .systemRed
         
-        saveBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(didTapSave))
+        saveBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapSave))
         
         switch isEditingLimit {
         case true:
@@ -137,7 +135,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             navigationItem.leftBarButtonItems = nil
             navigationItem.rightBarButtonItems = [deleteBarButtonItem]
             visualEffectView.alpha = 0
-            view.backgroundColor = .systemGray6
+            view.backgroundColor = .systemBackground
         default:
             navigationItem.rightBarButtonItems = [saveBarButtonItem]
             visualEffectView.alpha = 1

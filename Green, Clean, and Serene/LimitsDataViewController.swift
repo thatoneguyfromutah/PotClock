@@ -18,7 +18,6 @@ class LimitsDataViewController: UIViewController {
     @IBOutlet weak var exportLimitsButton: UIButton!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    var printBarButtonItem: UIBarButtonItem!
     var openFilesBarButtonItem: UIBarButtonItem!
     var clearImportsBarButtonItem: UIBarButtonItem!
 
@@ -26,18 +25,8 @@ class LimitsDataViewController: UIViewController {
         return (tabBarController!.viewControllers!.first as! UINavigationController).viewControllers.first as! LimitsTableViewController
     }
     
-    var allImportedLimits: [Limit] = [
-//        Limit(category: .drug,
-//              name: "Prozac",
-//              unitsName: "Pills",
-//              unitsLogged: 0,
-//              totalUnits: 4,
-//              timing: .daily,
-//              logs: [
-//                Log(amount: 2,
-//                    date: Date(date: Date()))
-//              ], iconName: "pills.fill")
-    ]
+    var allImportedLimits: [Limit] = []
+    
     var allSavedLimits: [Limit] {
         return limitsTableViewController.limits
     }
@@ -64,7 +53,6 @@ class LimitsDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        printBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "printer"), style: .plain, target: self, action: #selector(didTapPrint))
         openFilesBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(presentDocumentPicker))
         clearImportsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "clear"), style: .plain, target: self, action: #selector(didTapClearImports))
     }
@@ -91,10 +79,8 @@ class LimitsDataViewController: UIViewController {
             selectDeselectAllButton.title = limitsToExport.count == allSavedLimits.count ? "Deselect All" : "Select All"
             selectDeselectAllButton.title = allSavedLimits.isEmpty ? "Select All" : selectDeselectAllButton.title
             selectDeselectAllButton.isEnabled = !allSavedLimits.isEmpty
-            
-            printBarButtonItem.isEnabled = !limitsToExport.isEmpty
-            
-            navigationItem.rightBarButtonItems = [] // [printBarButtonItem]
+                        
+            navigationItem.rightBarButtonItems = []
             
         case 1:
             
@@ -130,10 +116,6 @@ class LimitsDataViewController: UIViewController {
     }
     
     // MARK: - Printing
-    
-    @objc func didTapPrint() {
-        
-    }
     
     @objc func didTapClearImports() {
         allImportedLimits = []

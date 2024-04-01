@@ -7,8 +7,11 @@
 
 import UIKit
 import CoreData
+import CoreLocation
+import MapKit
+import AVFoundation
 
-class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
+class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     // MARK: - Properties
     
@@ -33,12 +36,16 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     var changeInProgress = false
     var didReturnChange = false
     
+    var locationManager: CLLocationManager?
+    
+    var currentLogImage: UIImage?
+    
     var selectedDate = Date() {
         didSet {
             limit.selectedDate = selectedDate
         }
     }
-    
+        
     var limitsTableViewController: LimitsTableViewController!
     var context: NSManagedObjectContext? {
         return limitsTableViewController.context
@@ -57,13 +64,6 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
 
     var alertControllerTextField: UITextField? {
         return alertController?.textFields?.first
-    }
-    
-    func saveCurrentLog() {
-        let log = Log(amount: lastLogDifference, date: Date())
-        if log.amount == 0 { return }
-        limit.addLogToSelectedDay(log: log)
-        logTableView.reloadData()
     }
     
     var unitsLogged: Decimal {
@@ -92,6 +92,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         updateLabels()
         updateTiming()
         updateButtons()
+        logTableView.reloadData()
     }
     
     func updateButtons() {
@@ -111,6 +112,11 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         timeLabel.text = dateString
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.requestLocationAccess()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.updateLoadingIndicatorProgress()
@@ -121,6 +127,14 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         coordinator.animate(alongsideTransition: nil) { _ in
             self.updateLoadingIndicatorProgress()
         }
+    }
+    
+    // MARK: - Location Services
+    
+    func requestLocationAccess() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization()
     }
     
     // MARK: - Loading Indicator
@@ -231,12 +245,59 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "logCell", for: indexPath) as! LimitLogTableViewCell
+        
+        var cell: LimitLogTableViewCell
+        
         let log = limit!.selectedLogs[limit!.selectedLogs.count - indexPath.row - 1]
+        
+        if let image = log.image,
+           let latitude = log.latitude,
+           let longitude = log.longitude {
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "logCellImageMap", for: indexPath) as! LimitLogTableViewCell
+            
+            cell.logMapView.removeAnnotations(cell.logMapView.annotations)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            cell.logMapView.addAnnotation(annotation)
+            
+            let region = MKCoordinateRegion( center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), latitudinalMeters: CLLocationDistance(exactly: 100)!, longitudinalMeters: CLLocationDistance(exactly: 100)!)
+            cell.logMapView.setRegion(cell.logMapView.regionThatFits(region), animated: true)
+            
+            cell.logImageView.image = image
+                        
+        } else if let image = log.image {
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "logCellImage", for: indexPath) as! LimitLogTableViewCell
+            
+            cell.logImageView.image = image
+            
+        } else if let latitude = log.latitude,
+           let longitude = log.longitude {
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "logCellMap", for: indexPath) as! LimitLogTableViewCell
+            
+            cell.logMapView.removeAnnotations(cell.logMapView.annotations)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            cell.logMapView.addAnnotation(annotation)
+            
+            let region = MKCoordinateRegion( center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), latitudinalMeters: CLLocationDistance(exactly: 100)!, longitudinalMeters: CLLocationDistance(exactly: 100)!)
+            cell.logMapView.setRegion(cell.logMapView.regionThatFits(region), animated: true)
+            
+        } else {
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "logCell", for: indexPath) as! LimitLogTableViewCell
+            
+        }
+        
         let time = Calendar.current.dateComponents([.month, .day, .year, .hour, .minute], from: log.date)
         let dateString = "\(time.month!)/\(time.day!)/\(time.year!) - \(time.hour == 0 ? 12 : time.hour! > 12 ? time.hour! - 12 : time.hour!):\(time.minute! < 10 ? "0" : "")\(time.minute!) \(time.hour! >= 12 ? "PM" : "AM")"
-        cell.timeLabel.text = dateString
-        cell.amountLabel.text = "\(log.amount) \(limit!.unitsName)"
+        cell.logTimeLabel.text = dateString
+        cell.logAmountLabel.text = "\(log.amount) \(limit!.unitsName)"
+        
         return cell
     }
     
@@ -256,6 +317,93 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         }
     }
     
+    // MARK: - Logs
+        
+    func saveCurrentLog() {
+        
+        if lastLogDifference == 0 { return }
+
+        var log: Log
+        
+        if lastLogDifference > 0,
+           let currentLogImage = currentLogImage,
+           let coordinates = locationManager?.location?.coordinate {
+            
+            log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage, latitude: coordinates.latitude, longitude: coordinates.longitude)
+            
+        } else if lastLogDifference > 0,
+            let currentLogImage = currentLogImage {
+            
+            log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage)
+            
+        } else if lastLogDifference > 0,
+           let coordinates = locationManager?.location?.coordinate {
+            
+            log = Log(amount: lastLogDifference, date: Date(), latitude: coordinates.latitude, longitude: coordinates.longitude)
+            
+        } else {
+            
+            log = Log(amount: lastLogDifference, date: Date())
+        }
+        
+        currentLogImage = nil
+        limit.addLogToSelectedDay(log: log)
+        logTableView.reloadData()
+    }
+    
+    func presentIncreaseUnitsAlert() {
+        
+        guard let unitsName = limit?.unitsName else { return }
+        alertController = UIAlertController(title: "Increase By How Many \(unitsName)?", message: nil, preferredStyle: .alert)
+        isLoggingReduction = false
+        changeInProgress = true
+        
+        let submitAction = UIAlertAction(title: "Save", style: .default) { _ in
+                        
+            if self.changeInProgress != true { return }
+            
+            self.changeInProgress = false
+            
+            guard let textField = self.alertControllerTextField,
+                  let text = textField.text,
+                  text != "",
+                  let decimal = Decimal(string: text)
+            else {
+                return
+            }
+            
+            textField.delegate = self
+                        
+            self.lastLogDifference = decimal
+            self.saveCurrentLog()
+            self.updateLabels()
+            self.updateTiming()
+            self.updateLoadingIndicatorProgress()
+        }
+        alertController!.addAction(submitAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController!.addAction(cancelAction)
+        
+        present(alertController!, animated: true)
+    }
+    
+    // MARK: - Image Picker
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true)
+        
+        guard let image = info[.originalImage] as? UIImage else {
+            print("No Image Found")
+            return
+        }
+        
+        currentLogImage = image
+    
+        presentIncreaseUnitsAlert()
+    }
+    
     // MARK: - Actions
 
     @IBAction func didTapReduce(_ sender: UIButton) {
@@ -265,7 +413,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         isLoggingReduction = true
         changeInProgress = true
         
-        let submitAction = UIAlertAction(title: "Done", style: .default) { _ in
+        let submitAction = UIAlertAction(title: "Save", style: .default) { _ in
                         
             if self.changeInProgress != true { return }
             
@@ -301,40 +449,31 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     @IBAction func didTapIncrease(_ sender: UIButton) {
-        
-        guard let unitsName = limit?.unitsName else { return }
-        alertController = UIAlertController(title: "Increase By How Many \(unitsName)?", message: nil, preferredStyle: .alert)
-        isLoggingReduction = false
-        changeInProgress = true
-        
-        let submitAction = UIAlertAction(title: "Done", style: .default) { _ in
                         
-            if self.changeInProgress != true { return }
-            
-            self.changeInProgress = false
-            
-            guard let textField = self.alertControllerTextField,
-                  let text = textField.text,
-                  text != "",
-                  let decimal = Decimal(string: text)
-            else {
-                return
-            }
-            
-            textField.delegate = self
-                        
-            self.lastLogDifference = decimal
-            self.saveCurrentLog()
-            self.updateLabels()
-            self.updateTiming()
-            self.updateLoadingIndicatorProgress()
+        if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+            self.presentIncreaseUnitsAlert()
+            return
         }
-        alertController!.addAction(submitAction)
+        
+        let askImageViewController = UIAlertController(title: "Take And Attach An Image?", message: nil, preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.delegate = self
+            self.present(vc, animated: true)
+        }
+        askImageViewController.addAction(yesAction)
+        
+        let noAction = UIAlertAction(title: "No", style: .default) { _ in
+            self.presentIncreaseUnitsAlert()
+        }
+        askImageViewController.addAction(noAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController!.addAction(cancelAction)
+        askImageViewController.addAction(cancelAction)
         
-        present(alertController!, animated: true)
+        present(askImageViewController, animated: true)
     }
     
     @IBAction func didTapLastPeriod(_ sender: UIButton) {
@@ -353,14 +492,5 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         updateLoadingIndicatorProgress()
         logTableView.reloadData()
         updateButtons()
-    }
-    
-    @IBAction func didTapSelectDate(_ sender: UILabel) {
-//        let datePicker = UIDatePicker()
-//        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
-//        datePicker.timeZone = .current
-//        datePicker.backgroundColor = .white
-//        datePicker.tintColor = .systemGreen
-//        present(datePicker, animated: true)
     }
 }

@@ -16,17 +16,12 @@ class ExportLimitTableViewCell: UITableViewCell {
     @IBOutlet weak var limitCategoryLabel: UILabel!
     
     // MARK: - Cell Lifecycle
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        limitImageView.tintColor = selected ? .systemBackground : .systemGreen
-        limitNameLabel.textColor = selected ? .systemBackground : .label
-        limitCategoryLabel.textColor = selected ? .systemBackground : .label
-        contentView.backgroundColor = selected ? .systemGreen : .systemBackground
+        limitImageView.tintColor = selected ? .systemGray6 : .systemGreen
+        limitNameLabel.textColor = selected ? .systemGray6 : .label
+        limitCategoryLabel.textColor = selected ? .systemGray6 : .label
+        contentView.backgroundColor = selected ? .systemGreen : .systemGray6
     }
 }

@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreData
-import NotificationCenter
 
 class LimitsTableViewController: UITableViewController {
 
@@ -38,8 +37,19 @@ class LimitsTableViewController: UITableViewController {
     
     // MARK: - View Lifecycle
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateLimits()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.reloadData()
+        updateGame()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         let userHasBeenNotified = defaults.bool(forKey: "UserAgreementAlert")
         
@@ -62,27 +72,15 @@ class LimitsTableViewController: UITableViewController {
             
             return
         }
-        
-        // Limits
-        
-        updateLimits()
-        updateGame()
     }
     
     // MARK: - Game
-    
-    @objc func reloadTableView() {
-        updateLimits()
-        updateGame()
-    }
     
     func updateGame() {
         
         var atLimitEnabled: Bool = false
         var overLimitEnabled: Bool = false
-//        var daysSinceRelapses: [Decimal] = []
-//        var totalPoints: Decimal = 0
-
+        
         for limit in limits {
             
             if limit.isAtLimitForCurrentDay {
@@ -92,24 +90,13 @@ class LimitsTableViewController: UITableViewController {
             if limit.isOverLimitForCurrentDay {
                 overLimitEnabled = true
             }
-            
-//            daysSinceRelapses.append(limit.daysSinceRelapseFromCurrentDate)
-//            totalPoints += limit.totalPoints
         }
         
-//        let convertedPoints = NSDecimalNumber(decimal: totalPoints)
-//        print(convertedPoints)
-//        let roundedDecimal = Decimal(round(Double(convertedPoints.floatValue)))
-//        print(roundedDecimal)
         gameDaysTextView.text = "# Days"
         gamePointsTextView.text = "You Have No Points"
-                
-//        gameDaysTextView.text = "\(daysSinceRelapses.isEmpty || daysSinceRelapses.min() == 0 ? "No Days" : daysSinceRelapses.min() == 1 ? "\(daysSinceRelapses.min()!) Day" : "\(daysSinceRelapses.min()!) Days" )"
-//        gamePointsTextView.text = "You Have \(roundedDecimal > 0 ? "\(roundedDecimal)" : "No") Points"
-        
+            
         if (atLimitEnabled && overLimitEnabled || !atLimitEnabled && overLimitEnabled) {
             gameBackgroundView.backgroundColor = .systemRed
-            gamePointsTextView.text = "You Have No Points"
         } else if atLimitEnabled && !overLimitEnabled {
             gameBackgroundView.backgroundColor = .systemYellow
         } else {
@@ -173,6 +160,13 @@ class LimitsTableViewController: UITableViewController {
             limits.append(limit)
         }
         
+        sortLimits()
+    }
+    
+    func sortLimits() {
+        
+        // Sort Limits
+        
         limits = limits.sorted { $0.name < $1.name }
         
         // Filter Categories
@@ -180,10 +174,6 @@ class LimitsTableViewController: UITableViewController {
         foods = limits.filter { $0.category == .food }
         drugs = limits.filter { $0.category == .drug }
         activities = limits.filter { $0.category == .activity }
-        
-        // Table View
-        
-        tableView.reloadData()
     }
     
     func addNewLimit(newLimit: Limit) {
@@ -207,6 +197,7 @@ class LimitsTableViewController: UITableViewController {
             
             try context.save()
             updateLimits()
+            tableView.reloadData()
             updateGame()
             
         } catch let error {
@@ -402,8 +393,8 @@ class LimitsTableViewController: UITableViewController {
     // MARK: - Actions
     
     @IBAction func didChangeSelectedSegment(_ sender: UISegmentedControl) {
-        updateGame()
         tableView.reloadData()
+        updateGame()
     }
     
     @IBAction func editButtonTapped(sender: UIBarButtonItem) {

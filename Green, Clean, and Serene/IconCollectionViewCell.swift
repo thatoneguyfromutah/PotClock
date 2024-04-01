@@ -18,7 +18,7 @@ class IconCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             iconImageView.tintColor = isSelected ? .systemBackground : .systemGreen
-            contentView.backgroundColor = isSelected ? .systemGreen : .systemBackground
+            contentView.backgroundColor = isSelected ? .systemGreen : .systemGray6
         }
     }
 }

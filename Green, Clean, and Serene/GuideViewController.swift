@@ -49,7 +49,7 @@ class GuideViewController: UIViewController, PDFViewDelegate {
     
     @IBAction func didTapShare(_ sender: UIBarButtonItem) {
         let activityViewController = UIActivityViewController(activityItems: [documentPath], applicationActivities: nil)
-        activityViewController.excludedActivityTypes = [.copyToPasteboard, .print]
+        activityViewController.excludedActivityTypes = [.print]
         activityViewController.popoverPresentationController?.barButtonItem = shareBarButtonItem
         present(activityViewController, animated: true)
     }

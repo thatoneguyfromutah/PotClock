@@ -103,7 +103,7 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
         noTipsLabel.text = "No Tips"
         tableView.separatorStyle = tips.isEmpty ? .none : .singleLine
         tableView.backgroundView = tips.isEmpty ? noTipsLabel : nil
-        tipsLabel.text = totalTips == 0 ? "No Tips... Yet!" : "$\(totalTips) Tipped, Thank You!"
+        tipsLabel.text = totalTips == 0 ? "No Tips From You... Yet!" : "$\(totalTips) Tipped, Thank You!"
         tipsLabel.textColor = totalTips > 0 ? .systemGreen : .label
         return tips.count
     }
@@ -278,77 +278,6 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // MARK: - Mail
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        
-        if let error = error {
-            
-            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-            
-            let cancelAction = UIAlertAction(title: "Done", style: .default)
-            alertController.addAction(cancelAction)
-            
-            present(alertController, animated: true)
-            
-            return
-        }
-        
-        controller.dismiss(animated: true) {
-            
-            switch result {
-            
-            case .sent:
-                let alertController = UIAlertController(title: "Email Sent", message: nil, preferredStyle: .alert)
-                
-                let cancelAction = UIAlertAction(title: "Done", style: .default)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true)
-                
-                return
-                
-            case .saved:
-                
-                let alertController = UIAlertController(title: "Email Saved", message: nil, preferredStyle: .alert)
-                
-                let cancelAction = UIAlertAction(title: "Done", style: .default)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true)
-                
-                return
-                
-            case .cancelled:
-                
-                print("Email was cancelled.")
-                
-//                let alertController = UIAlertController(title: "Email Cancelled", message: nil, preferredStyle: .alert)
-//
-//                let cancelAction = UIAlertAction(title: "Done", style: .default)
-//                alertController.addAction(cancelAction)
-//
-//                self.present(alertController, animated: true)
-                
-                return
-                
-            case .failed:
-                
-                let alertController = UIAlertController(title: "Email Failed", message: nil, preferredStyle: .alert)
-                
-                let cancelAction = UIAlertAction(title: "Done", style: .default)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true)
-                
-                return
-                
-            @unknown default:
-                fatalError()
-            }
-        }
-    }
-    
     // MARK: - Actions
     
     @IBAction func didTapInfoButton(_ sender: UIBarButtonItem) {
@@ -362,7 +291,49 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
                 UIApplication.shared.open(url)
             }
         }
+        privacyPolicyAction.setValue(UIImage(systemName: "doc.text"), forKey: "image")
+        privacyPolicyAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alertController.addAction(privacyPolicyAction)
+        
+        let gitRepositoryAction = UIAlertAction(title: "Git Repository", style: .default) { action in
+            guard let url = URL(string: "https://github.com/thatoneguyfromutah/PotClock") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        gitRepositoryAction.setValue(UIImage(systemName: "externaldrive"), forKey: "image")
+        gitRepositoryAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alertController.addAction(gitRepositoryAction)
+        
+        let twitterAction = UIAlertAction(title: "Twitter by X", style: .default) { action in
+            guard let url = URL(string: "https://twitter.com/PotClock") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        twitterAction.setValue(UIImage(systemName: "x.square"), forKey: "image")
+        twitterAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alertController.addAction(twitterAction)
+        
+        let redditAction = UIAlertAction(title: "Reddit Community", style: .default) { action in
+            guard let url = URL(string: "https://www.reddit.com/r/greencleanandserene/") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        redditAction.setValue(UIImage(systemName: "person.2"), forKey: "image")
+        redditAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alertController.addAction(redditAction)
+        
+        let settingsAction = UIAlertAction(title: "Open Settings", style: .default) { action in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        settingsAction.setValue(UIImage(systemName: "gearshape"), forKey: "image")
+        settingsAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alertController.addAction(settingsAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cancelAction)

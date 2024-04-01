@@ -10,7 +10,7 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
-			<string>datafileicon.png</string>
+			<string>roundlogo.png</string>
 			<key>CFBundleTypeName</key>
 			<string>PotClock Data</string>
 			<key>CFBundleTypeRole</key>
@@ -41,7 +41,18 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict/>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>roundlogo</string>
+			<key>CFBundleURLName</key>
+			<string>com.chaseangelogiles.PotClock.scheme</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>potclock</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -55,6 +66,10 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Allowing use of the camera allows adding images to logs.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allowing location services will attach location information to logs.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -76,8 +91,6 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>UIBackgroundModes</key>
-	<array/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -90,8 +103,8 @@
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
-    <key>UIRequiresFullScreen~ipad</key>
-    <false/>
+	<key>UIRequiresFullScreen~ipad</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -114,7 +127,7 @@
 			<string>PotClock Data</string>
 			<key>UTTypeIconFiles</key>
 			<array>
-				<string>datafileicon.png</string>
+				<string>roundlogo.png</string>
 			</array>
 			<key>UTTypeIdentifier</key>
 			<string>com.pinocchiollc.potclock.datafile</string>
@@ -144,7 +157,7 @@
 			<string>PotClock Data</string>
 			<key>UTTypeIconFiles</key>
 			<array>
-				<string>datafileicon.png</string>
+				<string>roundlogo.png</string>
 			</array>
 			<key>UTTypeIdentifier</key>
 			<string>com.pinocchiollc.potclock.datafile</string>
