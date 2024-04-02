@@ -115,6 +115,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.requestLocationAccess()
+        self.requestCameraAccess()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -135,6 +136,12 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestWhenInUseAuthorization()
+    }
+    
+    func requestCameraAccess() {
+        Task.init(operation: {
+            await AVCaptureDevice.requestAccess(for: .video)
+        })
     }
     
     // MARK: - Loading Indicator
