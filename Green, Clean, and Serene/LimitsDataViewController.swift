@@ -200,37 +200,46 @@ class LimitsDataViewController: UIViewController {
                     
                     self.present(self.loadingViewController, animated: true) {
                         
-                        let fileManager = FileManager.default
-                        let encoded = try! JSONEncoder().encode(self.limitsToExport)
-                        let encryptedData = self.encryptFileData(password: firstText, data: encoded)
-                        
-                        do {
+                        Task {
                             
-                            let fileURL = fileManager.temporaryDirectory.appendingPathComponent("\(fileName).potclockdata")
+                            let fileManager = FileManager.default
+                            let encoded = try! JSONEncoder().encode(self.limitsToExport)
+                            let encryptedData = self.encryptFileData(password: firstText, data: encoded)
                             
-                            try encryptedData?.write(to: fileURL)
-                            
-                            self.loadingViewController.dismiss(animated: true) {
+                            do {
                                 
-                                let controller = UIDocumentPickerViewController(forExporting: [fileURL], asCopy: true)
-                                self.present(controller, animated: true)
-                            }
-                            
-                            return
-                            
-                        } catch {
-                            
-                            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                            
-                            let doneAction = UIAlertAction(title: "Done", style: .default)
-                            alertController.addAction(doneAction)
-                                       
-                            self.loadingViewController.dismiss(animated: true) {
+                                let fileURL = fileManager.temporaryDirectory.appendingPathComponent("\(fileName).potclockdata")
                                 
-                                self.present(alertController, animated: true)
+                                try encryptedData?.write(to: fileURL)
+                                
+                                await MainActor.run {
+                                    
+                                    self.loadingViewController.dismiss(animated: true) {
+                                        
+                                        let controller = UIDocumentPickerViewController(forExporting: [fileURL], asCopy: true)
+                                        self.present(controller, animated: true)
+                                    }
+                                }
+                                
+                                return
+                                
+                            } catch {
+                                
+                                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                                
+                                let doneAction = UIAlertAction(title: "Done", style: .default)
+                                alertController.addAction(doneAction)
+                                    
+                                await MainActor.run {
+                                    
+                                    self.loadingViewController.dismiss(animated: true) {
+                                        
+                                        self.present(alertController, animated: true)
+                                    }
+                                }
+                                
+                                return
                             }
-                            
-                            return
                         }
                     }
                 }
@@ -261,43 +270,52 @@ class LimitsDataViewController: UIViewController {
             
             present(loadingViewController, animated: true) {
                 
-                var namesThatExist: [String] = []
-                var alreadyExists: Bool {
-                    return !namesThatExist.isEmpty
-                }
-                
-                self.limitsToImport.forEach { limitToImport in
-                    if self.allSavedLimits.contains(where: { savedLimit in
-                        return limitToImport.name == savedLimit.name
-                    }) {
-                        namesThatExist.append(limitToImport.name)
-                    } else {
-                        self.limitsTableViewController.addNewLimit(newLimit: limitToImport)
+                Task {
+                    
+                    var namesThatExist: [String] = []
+                    var alreadyExists: Bool {
+                        return !namesThatExist.isEmpty
                     }
-                }
-                
-                if alreadyExists {
-                    let alertController = UIAlertController(title: "\(namesThatExist.count == 1 ? "\(namesThatExist[0])" : "\(namesThatExist.joined(separator: ", "))") Already Exist\(namesThatExist.count == 1 ? "s" : "")", message: "Please rename \(namesThatExist.count == 1 ? "it" : "them") in your limits to save \(namesThatExist.count == 1 ? "it" : "them")\(namesThatExist.count == self.limitsToImport.count ? "" : ", all other limits have been saved successfully").", preferredStyle: .alert)
                     
-                    let cancelAction = UIAlertAction(title: "Done", style: .default)
-                    alertController.addAction(cancelAction)
+                    self.limitsToImport.forEach { limitToImport in
+                        if self.allSavedLimits.contains(where: { savedLimit in
+                            return limitToImport.name == savedLimit.name
+                        }) {
+                            namesThatExist.append(limitToImport.name)
+                        } else {
+                            self.limitsTableViewController.addNewLimit(newLimit: limitToImport)
+                        }
+                    }
                     
-                    self.loadingViewController.dismiss(animated: true) {
+                    if alreadyExists {
+                        let alertController = UIAlertController(title: "\(namesThatExist.count == 1 ? "\(namesThatExist[0])" : "\(namesThatExist.joined(separator: ", "))") Already Exist\(namesThatExist.count == 1 ? "s" : "")", message: "Please rename \(namesThatExist.count == 1 ? "it" : "them") in your limits to save \(namesThatExist.count == 1 ? "it" : "them")\(namesThatExist.count == self.limitsToImport.count ? "" : ", all other limits have been saved successfully").", preferredStyle: .alert)
                         
-                        self.present(alertController, animated: true)
+                        let cancelAction = UIAlertAction(title: "Done", style: .default)
+                        alertController.addAction(cancelAction)
+                        
+                        await MainActor.run {
+                            
+                            self.loadingViewController.dismiss(animated: true) {
+                                
+                                self.present(alertController, animated: true)
+                            }
+                        }
+                        
+                        return
                     }
                     
-                    return
-                }
-                
-                let alertController = UIAlertController(title: "Limits Imported", message: "Your selected limits have all been imported successfully.", preferredStyle: .alert)
-                
-                let doneAction = UIAlertAction(title: "Done", style: .default)
-                alertController.addAction(doneAction)
-                
-                self.loadingViewController.dismiss(animated: true) {
+                    let alertController = UIAlertController(title: "Limit\(self.limitsToImport.count == 1 ? "" : "s") Saved", message: "Your selected limit\(self.limitsToImport.count == 1 ? "" : "s") \(self.limitsToImport.count == 1 ? "has" : "have") been saved successfully.", preferredStyle: .alert)
                     
-                    self.present(alertController, animated: true)
+                    let doneAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(doneAction)
+                    
+                    await MainActor.run {
+                        
+                        self.loadingViewController.dismiss(animated: true) {
+                            
+                            self.present(alertController, animated: true)
+                        }
+                    }
                 }
                 
                 return
@@ -329,51 +347,75 @@ class LimitsDataViewController: UIViewController {
             
             self.present(self.loadingViewController, animated: true) {
                 
-                guard let encryptedData = try? Data(contentsOf: url),
-                      let text = textField.text,
-                      let decryptedData = self.decryptFileData(password: text, data: encryptedData),
-                      let decodedLimits = try? JSONDecoder().decode([Limit].self, from: decryptedData)
-                else {
+                Task {
                     
-                    let alertController = UIAlertController(title: "Error", message: "There was a problem decrypting the file. Please try again and make sure you enter the correct password.", preferredStyle: .alert)
-
-                    let cancelAction = UIAlertAction(title: "Done", style: .default)
-                    alertController.addAction(cancelAction)
-
-                    self.loadingViewController.dismiss(animated: true) {
+                    guard let encryptedData = try? Data(contentsOf: url),
+                          let text = textField.text,
+                          let decryptedData = self.decryptFileData(password: text, data: encryptedData),
+                          let decodedLimits = try? JSONDecoder().decode([Limit].self, from: decryptedData)
+                    else {
                         
-                        self.present(alertController, animated: true)
+                        let alertController = UIAlertController(title: "Error", message: "There was a problem decrypting the file. Please try again and make sure you enter the correct password.", preferredStyle: .alert)
+
+                        let cancelAction = UIAlertAction(title: "Done", style: .default)
+                        alertController.addAction(cancelAction)
+
+                        await MainActor.run {
+                            
+                            self.loadingViewController.dismiss(animated: true) {
+                                
+                                self.present(alertController, animated: true)
+                            }
+                        }
+                        
+                        return
                     }
                     
-                    return
-                }
-                
-                var importableLimits: [Limit] = []
-                var namesThatExist: [String] = []
-                var alreadyExists: Bool {
-                    return !namesThatExist.isEmpty
-                }
-                
-                for decodedLimit in decodedLimits {
-                    if self.allImportedLimits.contains(where: { importedLimit in
-                        return decodedLimit.name.lowercased() == importedLimit.name.lowercased()
-                    }) {
-                        namesThatExist.append(decodedLimit.name)
-                    } else {
-                        importableLimits.append(decodedLimit)
+                    var importableLimits: [Limit] = []
+                    var namesThatExist: [String] = []
+                    var alreadyExists: Bool {
+                        return !namesThatExist.isEmpty
                     }
-                }
-                
-                guard !alreadyExists else {
                     
-                    let alertController = UIAlertController(title: "\(namesThatExist.count == 1 ? "\(namesThatExist[0])" : "\(namesThatExist.joined(separator: ", "))") \(namesThatExist.count == 1 ? "Has" : "Have") Already Been Imported", message: "Please remove \(namesThatExist.count == 1 ? "it" : "them") from your imports and try again\(importableLimits.isEmpty ? "" : ", all other limits have been imported and are ready to be saved").", preferredStyle: .alert)
-
-                    let cancelAction = UIAlertAction(title: "Done", style: .default)
-                    alertController.addAction(cancelAction)
-
-                    self.loadingViewController.dismiss(animated: true) {
+                    for decodedLimit in decodedLimits {
+                        if self.allImportedLimits.contains(where: { importedLimit in
+                            return decodedLimit.name.lowercased() == importedLimit.name.lowercased()
+                        }) {
+                            namesThatExist.append(decodedLimit.name)
+                        } else {
+                            importableLimits.append(decodedLimit)
+                        }
+                    }
+                    
+                    guard !alreadyExists else {
                         
-                        self.present(alertController, animated: true) {
+                        let alertController = UIAlertController(title: "\(namesThatExist.count == 1 ? "\(namesThatExist[0])" : "\(namesThatExist.joined(separator: ", "))") \(namesThatExist.count == 1 ? "Has" : "Have") Already Been Imported", message: "Please remove \(namesThatExist.count == 1 ? "it" : "them") from your imports and try again\(importableLimits.isEmpty ? "" : ", all other limits have been imported and are ready to be saved").", preferredStyle: .alert)
+
+                        let cancelAction = UIAlertAction(title: "Done", style: .default)
+                        alertController.addAction(cancelAction)
+
+                        await MainActor.run {
+                            
+                            self.loadingViewController.dismiss(animated: true) {
+                                
+                                self.present(alertController, animated: true) {
+                                    
+                                    importableLimits.forEach { self.allImportedLimits.append($0) }
+                                    
+                                    self.tableView.reloadData()
+                                    self.updateButtons()
+                                    
+                                    url.stopAccessingSecurityScopedResource()
+                                }
+                            }
+                        }
+                        
+                        return
+                    }
+                    
+                    await MainActor.run {
+                        
+                        self.loadingViewController.dismiss(animated: true) {
                             
                             importableLimits.forEach { self.allImportedLimits.append($0) }
                             
@@ -383,18 +425,6 @@ class LimitsDataViewController: UIViewController {
                             url.stopAccessingSecurityScopedResource()
                         }
                     }
-                    
-                    return
-                }
-                
-                self.loadingViewController.dismiss(animated: true) {
-                    
-                    importableLimits.forEach { self.allImportedLimits.append($0) }
-                    
-                    self.tableView.reloadData()
-                    self.updateButtons()
-                    
-                    url.stopAccessingSecurityScopedResource()
                 }
             }
         }

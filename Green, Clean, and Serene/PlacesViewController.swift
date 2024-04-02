@@ -25,11 +25,6 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     override func viewDidLoad() {
         super.viewDidLoad()
         requestLocationAccess()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.mapView.removeAnnotations(self.mapView.annotations)
         centerUserLocation()
     }
     
@@ -84,6 +79,17 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
                 
                 self.mapView.addAnnotations(annotations)
                 
+                if annotations.count == 0 {
+                    
+                    let noItemsAlertController = UIAlertController(title: "No Locations", message: "This limit does not have any location data.", preferredStyle: .alert)
+                    
+                    let okayAction = UIAlertAction(title: "Done", style: .default)
+                    noItemsAlertController.addAction(okayAction)
+                    
+                    self.present(noItemsAlertController, animated: true)
+                    
+                    return
+                }
             }
             alertAction.setValue(UIImage(systemName: limit.iconName), forKey: "image")
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

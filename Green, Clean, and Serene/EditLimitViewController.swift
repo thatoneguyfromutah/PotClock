@@ -607,6 +607,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             guard let managedObject = managedObject else { return }
             self.limitsTableViewController.context?.delete(managedObject)
             try? self.limitsTableViewController.context?.save()
+            self.limitsTableViewController.updateLimits()
             
             self.navigationController?.popToRootViewController(animated: true)
         }
