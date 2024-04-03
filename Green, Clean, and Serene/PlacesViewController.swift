@@ -28,6 +28,11 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
         centerUserLocation()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.mapView.removeAnnotations(self.mapView.annotations)
+    }
+    
     // MARK: - Core Location
     
     func requestLocationAccess() {
@@ -51,6 +56,18 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     
     @IBAction func didTapList(_ sender: UIBarButtonItem) {
         
+        if limitsTableViewController.limits.isEmpty {
+            
+            let alertController = UIAlertController(title: "No Limits", message: "There are no limits saved to view.", preferredStyle: .alert)
+
+            let doneAction = UIAlertAction(title: "Done", style: .cancel)
+            alertController.addAction(doneAction)
+            
+            present(alertController, animated: true)
+            
+            return
+        }
+        
         let alertController = UIAlertController(title: "Which Limit Would You Like To View?", message: nil, preferredStyle: .actionSheet)
         alertController.popoverPresentationController?.barButtonItem = sender
         
@@ -67,11 +84,12 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
                         if let latitude = log.latitude,
                            let longitude = log.longitude {
                             
+                            let time = Calendar.current.dateComponents([.month, .day, .year, .hour, .minute], from: log.date)
                             let annotation = MKPointAnnotation()
-
                             annotation.title = limit.name
+                            annotation.subtitle = "\(time.month!)/\(time.day!)/\(time.year!) - \(time.hour == 0 ? 12 : time.hour! > 12 ? time.hour! - 12 : time.hour!):\(time.minute! < 10 ? "0" : "")\(time.minute!) \(time.hour! >= 12 ? "PM" : "AM")"
                             annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-
+                            
                             annotations.append(annotation)
                         }
                     }
@@ -81,7 +99,7 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
                 
                 if annotations.count == 0 {
                     
-                    let noItemsAlertController = UIAlertController(title: "No Locations", message: "This limit does not have any location data.", preferredStyle: .alert)
+                    let noItemsAlertController = UIAlertController(title: "No Locations", message: "\(limit.name) does not have any location data.", preferredStyle: .alert)
                     
                     let okayAction = UIAlertAction(title: "Done", style: .default)
                     noItemsAlertController.addAction(okayAction)

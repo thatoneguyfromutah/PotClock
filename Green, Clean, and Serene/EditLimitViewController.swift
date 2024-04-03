@@ -550,6 +550,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             }
             
             performSegue(withIdentifier: "saveLimit", sender: self)
+            
+            return
         }
         
         
@@ -561,6 +563,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             alertController.addAction(cancelAction)
 
             present(alertController, animated: true)
+            
+            return
         }
         
         if limitNameTextField.text == nil || limitNameTextField.text == "" {
@@ -571,6 +575,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             alertController.addAction(cancelAction)
 
             present(alertController, animated: true)
+            
+            return
         }
         
         if limitUnitsTextField.text == nil || limitUnitsTextField.text == "" {
@@ -581,6 +587,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             alertController.addAction(cancelAction)
 
             present(alertController, animated: true)
+            
+            return
         }
     }
     
@@ -619,7 +627,9 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         present(alertController, animated: true)
     }
     
-    @IBAction func didTapCancel(_ sender: UIBarButtonItem) { dismiss(animated: true) }
+    @IBAction func didTapCancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
     
     @IBAction func didTapFirstMeasurement(_ sender: UIButton) {
         

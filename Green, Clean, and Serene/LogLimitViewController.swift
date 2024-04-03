@@ -262,7 +262,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
            let longitude = log.longitude {
             
             cell = tableView.dequeueReusableCell(withIdentifier: "logCellImageMap", for: indexPath) as! LimitLogTableViewCell
-            
+                        
             cell.logMapView.removeAnnotations(cell.logMapView.annotations)
             
             let annotation = MKPointAnnotation()
@@ -284,7 +284,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
            let longitude = log.longitude {
             
             cell = tableView.dequeueReusableCell(withIdentifier: "logCellMap", for: indexPath) as! LimitLogTableViewCell
-            
+                        
             cell.logMapView.removeAnnotations(cell.logMapView.annotations)
             
             let annotation = MKPointAnnotation()

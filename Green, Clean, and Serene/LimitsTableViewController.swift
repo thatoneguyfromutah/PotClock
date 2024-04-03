@@ -176,29 +176,35 @@ class LimitsTableViewController: UITableViewController {
         activities = limits.filter { $0.category == .activity }
     }
     
-    func addNewLimit(newLimit: Limit) {
+    func addNewLimits(newLimits limits: [Limit]) {
+        for limit in limits {
+            addNewLimit(newLimit: limit)
+        }
+    }
+    
+    func addNewLimit(newLimit limit: Limit) {
         
         guard let context = context,
               let entity = NSEntityDescription.entity(forEntityName: "StoredLimit", in: context)
         else { return }
         
         let storedLimit = NSManagedObject(entity: entity, insertInto: context)
-        storedLimit.setValue(newLimit.creationDate, forKey: "creationDate")
-        storedLimit.setValue(newLimit.categoryString, forKey: "categoryString")
-        storedLimit.setValue(newLimit.name, forKey: "name")
-        storedLimit.setValue(newLimit.unitsName, forKey: "unitsName")
-        storedLimit.setValue(newLimit.currentUnitsProgressString, forKey: "unitsLogged")
-        storedLimit.setValue(newLimit.totalUnitsString, forKey: "totalUnits")
-        storedLimit.setValue(newLimit.timingString, forKey: "timingString")
-        storedLimit.setValue(newLimit.encodedDays, forKey: "days")
-        storedLimit.setValue(newLimit.iconName, forKey: "iconName")
+        storedLimit.setValue(limit.creationDate, forKey: "creationDate")
+        storedLimit.setValue(limit.categoryString, forKey: "categoryString")
+        storedLimit.setValue(limit.name, forKey: "name")
+        storedLimit.setValue(limit.unitsName, forKey: "unitsName")
+        storedLimit.setValue(limit.currentUnitsProgressString, forKey: "unitsLogged")
+        storedLimit.setValue(limit.totalUnitsString, forKey: "totalUnits")
+        storedLimit.setValue(limit.timingString, forKey: "timingString")
+        storedLimit.setValue(limit.encodedDays, forKey: "days")
+        storedLimit.setValue(limit.iconName, forKey: "iconName")
         
         do {
             
             try context.save()
-            updateLimits()
-            tableView.reloadData()
-            updateGame()
+            self.updateLimits()
+            self.tableView.reloadData()
+            self.updateGame()
             
         } catch let error {
             
@@ -231,11 +237,7 @@ class LimitsTableViewController: UITableViewController {
             editBarButtonItem.isEnabled = !limits.isEmpty
             
             if limits.isEmpty {
-                
-                DispatchQueue.main.async(execute: {
-                   tableView.setEditing(false, animated: true)
-                })
-                
+                tableView.setEditing(false, animated: true)
                 editBarButtonItem.title = "Edit"
             }
             
@@ -250,11 +252,7 @@ class LimitsTableViewController: UITableViewController {
             editBarButtonItem.isEnabled = !limits.isEmpty
 
             if limits.isEmpty {
-                
-                DispatchQueue.main.async(execute: {
-                   tableView.setEditing(false, animated: true)
-                })
-                
+                tableView.setEditing(false, animated: true)
                 editBarButtonItem.title = "Edit"
             }
 
@@ -269,11 +267,7 @@ class LimitsTableViewController: UITableViewController {
             editBarButtonItem.isEnabled = !limits.isEmpty
             
             if limits.isEmpty {
-                
-                DispatchQueue.main.async(execute: {
-                   tableView.setEditing(false, animated: true)
-                })
-                
+                tableView.setEditing(false, animated: true)
                 editBarButtonItem.title = "Edit"
             }
             
