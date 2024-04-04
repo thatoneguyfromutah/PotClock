@@ -8,8 +8,9 @@
 import UIKit
 import CoreData
 import NotificationCenter
+import CoreLocation
 
-class LimitsTableViewController: UITableViewController {
+class LimitsTableViewController: UITableViewController, CLLocationManagerDelegate {
 
     // MARK: - Properties
     
@@ -20,8 +21,6 @@ class LimitsTableViewController: UITableViewController {
     var drugs: [Limit] = []
     var activities: [Limit] = []
     
-    var dateLastOpened: Date!
-    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var gameBackgroundView: UIView!
@@ -29,7 +28,8 @@ class LimitsTableViewController: UITableViewController {
     @IBOutlet weak var gamePointsTextView: UITextView!
     
     let defaults = UserDefaults.standard
-    
+    var locationManager: CLLocationManager?
+
     var appDelegate: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
@@ -51,6 +51,7 @@ class LimitsTableViewController: UITableViewController {
             }
         }
         
+        requestLocationAccess()
         updateLimits()
     }
 
@@ -84,6 +85,14 @@ class LimitsTableViewController: UITableViewController {
             
             return
         }
+    }
+    
+    // MARK: - Location
+    
+    func requestLocationAccess() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization()
     }
     
     // MARK: - Game

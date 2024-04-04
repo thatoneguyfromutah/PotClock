@@ -325,6 +325,9 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
         redditAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alertController.addAction(redditAction)
         
+        #if targetEnvironment(macCatalyst)
+        // If running on Mac we skip the button to open the Settings app.
+        #else
         let settingsAction = UIAlertAction(title: "Open Settings", style: .default) { action in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
@@ -334,6 +337,7 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
         settingsAction.setValue(UIImage(systemName: "gearshape"), forKey: "image")
         settingsAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alertController.addAction(settingsAction)
+        #endif
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cancelAction)

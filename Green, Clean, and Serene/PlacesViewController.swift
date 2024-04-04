@@ -8,14 +8,12 @@
 import UIKit
 import MapKit
 
-class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class PlacesViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: - Properties
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var locationManager: CLLocationManager?
-
     var limitsTableViewController: LimitsTableViewController {
         return (tabBarController!.viewControllers!.first as! UINavigationController).viewControllers.first as! LimitsTableViewController
     }
@@ -24,7 +22,7 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestLocationAccess()
+        self.mapView.delegate = self
         centerUserLocation()
     }
     
@@ -32,20 +30,12 @@ class PlacesViewController: UIViewController, MKMapViewDelegate, CLLocationManag
         super.viewDidAppear(animated)
         self.mapView.removeAnnotations(self.mapView.annotations)
     }
-    
-    // MARK: - Core Location
-    
-    func requestLocationAccess() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestWhenInUseAuthorization()
-    }
-    
+
     // MARK: - Maps
     
     func centerUserLocation() {
         
-        let coordinates = locationManager?.location?.coordinate
+        let coordinates = limitsTableViewController.locationManager?.location?.coordinate
         
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coordinates?.latitude ?? 0, longitude: coordinates?.longitude ?? 0), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 180))
 

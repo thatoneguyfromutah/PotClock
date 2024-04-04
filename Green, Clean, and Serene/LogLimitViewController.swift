@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 import AVFoundation
 
-class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     // MARK: - Properties
     
@@ -35,8 +35,6 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     
     var changeInProgress = false
     var didReturnChange = false
-    
-    var locationManager: CLLocationManager?
     
     var currentLogImage: UIImage?
     
@@ -121,7 +119,6 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             }
         }
         
-        self.requestLocationAccess()
         self.requestCameraAccess()
     }
     
@@ -138,12 +135,6 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     // MARK: - Location Services
-    
-    func requestLocationAccess() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestWhenInUseAuthorization()
-    }
     
     func requestCameraAccess() {
         Task {
@@ -341,7 +332,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         
         if lastLogDifference > 0,
            let currentLogImage = currentLogImage,
-           let coordinates = locationManager?.location?.coordinate {
+           let coordinates = limitsTableViewController.locationManager?.location?.coordinate {
             
             log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage, latitude: coordinates.latitude, longitude: coordinates.longitude)
             
@@ -351,7 +342,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage)
             
         } else if lastLogDifference > 0,
-           let coordinates = locationManager?.location?.coordinate {
+            let coordinates = limitsTableViewController.locationManager?.location?.coordinate {
             
             log = Log(amount: lastLogDifference, date: Date(), latitude: coordinates.latitude, longitude: coordinates.longitude)
             
