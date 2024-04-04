@@ -75,7 +75,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     // MARK: - View Lifecycle
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -86,9 +86,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         if let unitsName = limit?.unitsName {
             currentUnitsTextField.placeholder = unitsName
         }
-        
-        currentUnitsTextField.delegate = self
-        
+                
         updateLabels()
         updateTiming()
         updateButtons()
@@ -114,6 +112,15 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.currentUnitsTextField.delegate = self
+        
+        NotificationCenter.default.addObserver(forName: .NSCalendarDayChanged, object: nil, queue: nil) { _ in
+            DispatchQueue.main.async {
+                self.updateButtons()
+            }
+        }
+        
         self.requestLocationAccess()
         self.requestCameraAccess()
     }
@@ -139,9 +146,9 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     func requestCameraAccess() {
-        Task.init(operation: {
+        Task {
             await AVCaptureDevice.requestAccess(for: .video)
-        })
+        }
     }
     
     // MARK: - Loading Indicator
@@ -242,7 +249,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         }
         
         if !limit.days.contains(where: { $0.date.startOfDay == selectedDate.startOfDay }) {
-            limit.addDayToDays(day: Day(date: selectedDate.startOfDay, logs: [], limit: limit.totalUnits, unitsName: limit.unitsName))
+            limit.addDayToDays(day: Day(date: selectedDate.startOfDay, logs: [], limit: limit.totalUnits))
         }
         
         tableView.backgroundView = limit.selectedLogs.isEmpty ? emptyLabel : nil

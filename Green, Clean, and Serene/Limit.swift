@@ -164,7 +164,7 @@ class Limit: NSObject, Codable {
             days = []
         }
 
-        addDayToDays(day: Day(date: selectedDate, logs: [], limit: totalUnits, unitsName: unitsName))
+        addDayToDays(day: Day(date: selectedDate, logs: [], limit: totalUnits))
         return days[days.count - 1]
     }
     
@@ -180,7 +180,7 @@ class Limit: NSObject, Codable {
             days = []
         }
 
-        addDayToDays(day: Day(date: selectedDate, logs: [], limit: totalUnits, unitsName: unitsName))
+        addDayToDays(day: Day(date: selectedDate, logs: [], limit: totalUnits))
         return days[days.count - 1]
     }
     

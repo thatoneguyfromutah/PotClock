@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import NotificationCenter
 
 class LimitsTableViewController: UITableViewController {
 
@@ -18,6 +19,8 @@ class LimitsTableViewController: UITableViewController {
     var foods: [Limit] = []
     var drugs: [Limit] = []
     var activities: [Limit] = []
+    
+    var dateLastOpened: Date!
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
@@ -39,9 +42,18 @@ class LimitsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(forName: .NSCalendarDayChanged, object: nil, queue: nil) { _ in
+            DispatchQueue.main.async {
+                self.updateLimits()
+                self.tableView.reloadData()
+                self.updateGame()
+            }
+        }
+        
         updateLimits()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()

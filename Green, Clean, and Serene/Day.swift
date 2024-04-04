@@ -17,7 +17,6 @@ public class Day: NSObject, Codable {
     var date: Date = Date()
     var logs: [Log] = []
     var limit: Decimal?
-    var unitsName: String?
     
     var units: Decimal {
         return logs.reduce(0) { $0 + $1.amount }
@@ -25,7 +24,7 @@ public class Day: NSObject, Codable {
     
     // MARK: - Initialization
     
-    init(date: Date, logs: [Log], limit: Decimal, unitsName: String) {
+    init(date: Date, logs: [Log], limit: Decimal) {
         self.date = date
         self.logs = logs
         self.limit = limit
@@ -37,11 +36,10 @@ public class Day: NSObject, Codable {
               let encodedLogs = coder.decodeObject(forKey: "logs") as? Data,
               let logs = try? JSONDecoder().decode([Log].self, from: encodedLogs),
               let limitString = coder.decodeObject(forKey: "limit") as? String,
-              let limit = Decimal(string: limitString),
-              let unitsName = coder.decodeObject(forKey: "unitsName") as? String
+              let limit = Decimal(string: limitString)
         else { return nil }
         
-        self.init(date: date, logs: logs, limit: limit, unitsName: unitsName)
+        self.init(date: date, logs: logs, limit: limit)
     }
     
     // MARK: - Coding
