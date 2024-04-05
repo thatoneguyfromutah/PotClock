@@ -51,15 +51,9 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
             
             DispatchQueue.main.async {
                 
-                self.present(self.loadingViewController, animated: true) {
-                    
-                    self.updateLimits()
-                    
-                    self.loadingViewController.dismiss(animated: true) {
-                        self.tableView.reloadData()
-                        self.updateGame()
-                    }
-                }
+                self.updateLimits()
+                self.tableView.reloadData()
+                self.updateGame()
             }
         }
         
