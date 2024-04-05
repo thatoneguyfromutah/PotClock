@@ -351,9 +351,10 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
                 log = Log(amount: self.lastLogDifference, date: Date())
             }
             
+            self.currentLogImage = nil
+            self.limit.addLogToSelectedDay(log: log)
+            
             self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
-                self.currentLogImage = nil
-                self.limit.addLogToSelectedDay(log: log)
                 self.logTableView.reloadData()
                 self.updateLabels()
                 self.updateTiming()

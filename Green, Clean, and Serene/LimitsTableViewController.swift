@@ -48,10 +48,18 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         loadingViewController = storyboard!.instantiateViewController(identifier: "LoadingViewController")
         
         NotificationCenter.default.addObserver(forName: .NSCalendarDayChanged, object: nil, queue: nil) { _ in
+            
             DispatchQueue.main.async {
-                self.updateLimits()
-                self.tableView.reloadData()
-                self.updateGame()
+                
+                self.present(self.loadingViewController, animated: true) {
+                    
+                    self.updateLimits()
+                    
+                    self.loadingViewController.dismiss(animated: true) {
+                        self.tableView.reloadData()
+                        self.updateGame()
+                    }
+                }
             }
         }
         
