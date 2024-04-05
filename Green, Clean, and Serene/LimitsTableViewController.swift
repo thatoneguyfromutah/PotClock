@@ -194,7 +194,7 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Sort Limits
         
-        limits = limits.sorted { $0.name < $1.name }
+        limits = limits.sorted { $0.name.lowercased() < $1.name.lowercased() }
         
         // Filter Categories
         
