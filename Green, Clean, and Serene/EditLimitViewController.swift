@@ -604,26 +604,31 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             
-            guard let selectedItem = self.limitsTableViewController.tableView.indexPathForSelectedRow else { return }
-            
-            var managedObject: NSManagedObject?
-            switch self.limitsTableViewController.segmentedControl.selectedSegmentIndex {
-            case 0:
-                managedObject = self.limitsTableViewController.foods[selectedItem.row].managedObject
-            case 1:
-                managedObject = self.limitsTableViewController.drugs[selectedItem.row].managedObject
-            case 2:
-                managedObject = self.limitsTableViewController.activities[selectedItem.row].managedObject
-            default:
-                fatalError()
+            self.present(self.limitsTableViewController.loadingViewController, animated: true) {
+                
+                guard let selectedItem = self.limitsTableViewController.tableView.indexPathForSelectedRow else { return }
+                
+                var managedObject: NSManagedObject?
+                switch self.limitsTableViewController.segmentedControl.selectedSegmentIndex {
+                case 0:
+                    managedObject = self.limitsTableViewController.foods[selectedItem.row].managedObject
+                case 1:
+                    managedObject = self.limitsTableViewController.drugs[selectedItem.row].managedObject
+                case 2:
+                    managedObject = self.limitsTableViewController.activities[selectedItem.row].managedObject
+                default:
+                    fatalError()
+                }
+                
+                guard let managedObject = managedObject else { return }
+                self.limitsTableViewController.context?.delete(managedObject)
+                try? self.limitsTableViewController.context?.save()
+                self.limitsTableViewController.updateLimits()
+                
+                self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
-            
-            guard let managedObject = managedObject else { return }
-            self.limitsTableViewController.context?.delete(managedObject)
-            try? self.limitsTableViewController.context?.save()
-            self.limitsTableViewController.updateLimits()
-            
-            self.navigationController?.popToRootViewController(animated: true)
         }
         alertController.addAction(deleteAction)
         
