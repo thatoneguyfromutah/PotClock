@@ -21,8 +21,6 @@ class LimitsDataViewController: UIViewController {
     
     var openFilesBarButtonItem: UIBarButtonItem!
     var clearImportsBarButtonItem: UIBarButtonItem!
-
-    var loadingViewController: UIViewController!
     
     var limitsTableViewController: LimitsTableViewController {
         return (tabBarController!.viewControllers!.first as! UINavigationController).viewControllers.first as! LimitsTableViewController
@@ -56,7 +54,6 @@ class LimitsDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadingViewController = storyboard!.instantiateViewController(identifier: "LoadingViewController")
         openFilesBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(presentDocumentPicker))
         clearImportsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "clear"), style: .plain, target: self, action: #selector(didTapClearImports))
     }
@@ -199,7 +196,7 @@ class LimitsDataViewController: UIViewController {
                         return
                     }
                     
-                    self.present(self.loadingViewController, animated: true) {
+                    self.present(self.limitsTableViewController.loadingViewController, animated: true) {
                         
                         let limitsToExport = self.limitsToExport
                         
@@ -217,7 +214,7 @@ class LimitsDataViewController: UIViewController {
                                 
                                 DispatchQueue.main.async {
                                     
-                                    self.loadingViewController.dismiss(animated: true) {
+                                    self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                                         
                                         let controller = UIDocumentPickerViewController(forExporting: [fileURL], asCopy: true)
                                         self.present(controller, animated: true)
@@ -233,7 +230,7 @@ class LimitsDataViewController: UIViewController {
                                     let doneAction = UIAlertAction(title: "Done", style: .default)
                                     alertController.addAction(doneAction)
                                     
-                                    self.loadingViewController.dismiss(animated: true) {
+                                    self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                                         
                                         self.present(alertController, animated: true)
                                     }
@@ -266,7 +263,7 @@ class LimitsDataViewController: UIViewController {
                 return
             }
             
-            present(loadingViewController, animated: true) {
+            present(limitsTableViewController.loadingViewController, animated: true) {
                 
                 let limitsToImport = self.limitsToImport
                 let allSavedLimits = self.allSavedLimits
@@ -340,7 +337,7 @@ class LimitsDataViewController: UIViewController {
                             let cancelAction = UIAlertAction(title: "Done", style: .default)
                             alertController.addAction(cancelAction)
                             
-                            self.loadingViewController.dismiss(animated: true) {
+                            self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                                 
                                 self.present(alertController, animated: true)
                             }
@@ -353,7 +350,7 @@ class LimitsDataViewController: UIViewController {
                         let doneAction = UIAlertAction(title: "Done", style: .default)
                         alertController.addAction(doneAction)
                         
-                        self.loadingViewController.dismiss(animated: true) {
+                        self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                             
                             self.present(alertController, animated: true)
                         }
@@ -385,7 +382,7 @@ class LimitsDataViewController: UIViewController {
         
         let doneAction = UIAlertAction(title: "Done", style: .default) { action in
             
-            self.present(self.loadingViewController, animated: true) {
+            self.present(self.limitsTableViewController.loadingViewController, animated: true) {
                 
                 let text = textField.text
                     
@@ -404,7 +401,7 @@ class LimitsDataViewController: UIViewController {
                             let cancelAction = UIAlertAction(title: "Done", style: .default)
                             alertController.addAction(cancelAction)
                             
-                            self.loadingViewController.dismiss(animated: true) {
+                            self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                                 
                                 self.present(alertController, animated: true)
                             }
@@ -438,7 +435,7 @@ class LimitsDataViewController: UIViewController {
                             let cancelAction = UIAlertAction(title: "Done", style: .default)
                             alertController.addAction(cancelAction)
                             
-                            self.loadingViewController.dismiss(animated: true) {
+                            self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                                 
                                 self.present(alertController, animated: true) {
                                     
@@ -457,7 +454,7 @@ class LimitsDataViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         
-                        self.loadingViewController.dismiss(animated: true) {
+                        self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                             
                             importableLimits.forEach { self.allImportedLimits.append($0) }
                             

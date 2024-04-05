@@ -48,7 +48,7 @@ class PlacesViewController: UIViewController, MKMapViewDelegate {
         
         if limitsTableViewController.limits.isEmpty {
             
-            let alertController = UIAlertController(title: "No Limits", message: "There are no limits saved to view.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "No Limits", message: "There are no saved limits to view.", preferredStyle: .alert)
 
             let doneAction = UIAlertAction(title: "Done", style: .cancel)
             alertController.addAction(doneAction)
@@ -69,34 +69,44 @@ class PlacesViewController: UIViewController, MKMapViewDelegate {
                 
                 var annotations: [MKPointAnnotation] = []
                 
-                for day in limit.days {
-                    for log in day.logs {
-                        if let latitude = log.latitude,
-                           let longitude = log.longitude {
+                self.present(self.limitsTableViewController.loadingViewController, animated: true) {
+                    
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        
+                        for day in limit.days {
+                            for log in day.logs {
+                                if let latitude = log.latitude,
+                                   let longitude = log.longitude {
+                                    
+                                    let time = Calendar.current.dateComponents([.month, .day, .year, .hour, .minute], from: log.date)
+                                    let annotation = MKPointAnnotation()
+                                    annotation.title = limit.name
+                                    annotation.subtitle = "\(time.month!)/\(time.day!)/\(time.year!) - \(time.hour == 0 ? 12 : time.hour! > 12 ? time.hour! - 12 : time.hour!):\(time.minute! < 10 ? "0" : "")\(time.minute!) \(time.hour! >= 12 ? "PM" : "AM")"
+                                    annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                    
+                                    annotations.append(annotation)
+                                }
+                            }
+                        }
+                        
+                        DispatchQueue.main.async {
                             
-                            let time = Calendar.current.dateComponents([.month, .day, .year, .hour, .minute], from: log.date)
-                            let annotation = MKPointAnnotation()
-                            annotation.title = limit.name
-                            annotation.subtitle = "\(time.month!)/\(time.day!)/\(time.year!) - \(time.hour == 0 ? 12 : time.hour! > 12 ? time.hour! - 12 : time.hour!):\(time.minute! < 10 ? "0" : "")\(time.minute!) \(time.hour! >= 12 ? "PM" : "AM")"
-                            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                            
-                            annotations.append(annotation)
+                            self.mapView.addAnnotations(annotations)
+
+                            self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
+                                
+                                if annotations.count == 0 {
+                                    
+                                    let noItemsAlertController = UIAlertController(title: "No Locations", message: "\(limit.name) does not have any location data.", preferredStyle: .alert)
+                                    
+                                    let okayAction = UIAlertAction(title: "Done", style: .default)
+                                    noItemsAlertController.addAction(okayAction)
+                                    
+                                    self.present(noItemsAlertController, animated: true)
+                                }
+                            }
                         }
                     }
-                }
-                
-                self.mapView.addAnnotations(annotations)
-                
-                if annotations.count == 0 {
-                    
-                    let noItemsAlertController = UIAlertController(title: "No Locations", message: "\(limit.name) does not have any location data.", preferredStyle: .alert)
-                    
-                    let okayAction = UIAlertAction(title: "Done", style: .default)
-                    noItemsAlertController.addAction(okayAction)
-                    
-                    self.present(noItemsAlertController, animated: true)
-                    
-                    return
                 }
             }
             alertAction.setValue(UIImage(systemName: limit.iconName), forKey: "image")

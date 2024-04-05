@@ -172,12 +172,12 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     // MARK: - Text Field
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
+
         if textField === alertControllerTextField, changeInProgress == true, didReturnChange == true {
-            
-            self.changeInProgress = false
-            self.didReturnChange = false
-            
+
+            changeInProgress = false
+            didReturnChange = false
+
             guard let textField = self.alertControllerTextField,
                   let text = textField.text,
                   text != "",
@@ -185,20 +185,18 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             else {
                 return
             }
-            
+
             textField.delegate = self
+
+            lastLogDifference = isLoggingReduction ? (unitsLogged - decimal < 0 ? -((unitsLogged - decimal) + decimal) : -decimal) : decimal
             
-            self.lastLogDifference = isLoggingReduction ? (self.unitsLogged - decimal < 0 ? -((self.unitsLogged - decimal) + decimal) : -decimal) : decimal
-                        
-            self.saveCurrentLog()
-            self.updateLabels()
-            self.updateTiming()
-            self.updateLoadingIndicatorProgress()
+            alertController?.dismiss(animated: true) {
+                self.saveCurrentLog()
+            }
         }
-        
-        alertController?.dismiss(animated: true)
+
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         didReturnChange = true
         textField.resignFirstResponder()
@@ -327,33 +325,41 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     func saveCurrentLog() {
         
         if lastLogDifference == 0 { return }
+            
+        self.present(limitsTableViewController.loadingViewController, animated: true) {
+            
+            var log: Log
 
-        var log: Log
-        
-        if lastLogDifference > 0,
-           let currentLogImage = currentLogImage,
-           let coordinates = limitsTableViewController.locationManager?.location?.coordinate {
+            if self.lastLogDifference > 0,
+               let currentLogImage = self.currentLogImage,
+               let coordinates = self.limitsTableViewController.locationManager?.location?.coordinate {
+                
+                log = Log(amount: self.lastLogDifference, date: Date(), image: currentLogImage, latitude: coordinates.latitude, longitude: coordinates.longitude)
+                
+            } else if self.lastLogDifference > 0,
+                let currentLogImage = self.currentLogImage {
+                
+                log = Log(amount: self.lastLogDifference, date: Date(), image: currentLogImage)
+                
+            } else if self.lastLogDifference > 0,
+                      let coordinates = self.limitsTableViewController.locationManager?.location?.coordinate {
+                
+                log = Log(amount: self.lastLogDifference, date: Date(), latitude: coordinates.latitude, longitude: coordinates.longitude)
+                
+            } else {
+                
+                log = Log(amount: self.lastLogDifference, date: Date())
+            }
             
-            log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage, latitude: coordinates.latitude, longitude: coordinates.longitude)
-            
-        } else if lastLogDifference > 0,
-            let currentLogImage = currentLogImage {
-            
-            log = Log(amount: lastLogDifference, date: Date(), image: currentLogImage)
-            
-        } else if lastLogDifference > 0,
-            let coordinates = limitsTableViewController.locationManager?.location?.coordinate {
-            
-            log = Log(amount: lastLogDifference, date: Date(), latitude: coordinates.latitude, longitude: coordinates.longitude)
-            
-        } else {
-            
-            log = Log(amount: lastLogDifference, date: Date())
+            self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
+                self.currentLogImage = nil
+                self.limit.addLogToSelectedDay(log: log)
+                self.logTableView.reloadData()
+                self.updateLabels()
+                self.updateTiming()
+                self.updateLoadingIndicatorProgress()
+            }
         }
-        
-        currentLogImage = nil
-        limit.addLogToSelectedDay(log: log)
-        logTableView.reloadData()
     }
     
     func presentIncreaseUnitsAlert() {
@@ -380,10 +386,8 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             textField.delegate = self
                         
             self.lastLogDifference = decimal
+            
             self.saveCurrentLog()
-            self.updateLabels()
-            self.updateTiming()
-            self.updateLoadingIndicatorProgress()
         }
         alertController!.addAction(submitAction)
         
@@ -441,9 +445,6 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             }
                         
             self.saveCurrentLog()
-            self.updateLabels()
-            self.updateTiming()
-            self.updateLoadingIndicatorProgress()
         }
         alertController!.addAction(submitAction)
         

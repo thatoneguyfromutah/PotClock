@@ -30,6 +30,8 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     let defaults = UserDefaults.standard
     var locationManager: CLLocationManager?
 
+    var loadingViewController: UIViewController!
+
     var appDelegate: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
@@ -42,6 +44,8 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingViewController = storyboard!.instantiateViewController(identifier: "LoadingViewController")
         
         NotificationCenter.default.addObserver(forName: .NSCalendarDayChanged, object: nil, queue: nil) { _ in
             DispatchQueue.main.async {

@@ -657,7 +657,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         let alertController = UIAlertController(title: "Unit Names", message: "Type in a custom name for your units of measurement here.", preferredStyle: .alert)
         alertController.addTextField()
         
-        let submitAction = UIAlertAction(title: "Done", style: .default) { _ in
+        let submitAction = UIAlertAction(title: "Save", style: .default) { _ in
             
             guard let textField = alertController.textFields?.first,
                   let text = textField.text, text != ""
