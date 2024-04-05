@@ -525,9 +525,11 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     
     @IBAction func didChangeSelectedSegment(_ segmentedControl: UISegmentedControl) {
         updateSelection()
-        present(self.limitsTableViewController.loadingViewController, animated: true) {
-            self.limitsTableViewController.updateLimits()
-            self.limitsTableViewController.loadingViewController.dismiss(animated: true)
+        if isEditingLimit {
+            present(self.limitsTableViewController.loadingViewController, animated: true) {
+                self.limitsTableViewController.updateLimits()
+                self.limitsTableViewController.loadingViewController.dismiss(animated: true)
+            }
         }
     }
     
