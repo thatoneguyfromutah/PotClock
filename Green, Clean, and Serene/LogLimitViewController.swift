@@ -32,6 +32,8 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var previousDayButton: UIButton!
     @IBOutlet weak var nextDayButton: UIButton!
+    @IBOutlet weak var increaseButton: UIButton!
+    @IBOutlet weak var reduceButton: UIButton!
     
     var changeInProgress = false
     var didReturnChange = false
@@ -92,6 +94,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     func updateButtons() {
+        reduceButton.isEnabled = limit.selectedUnits != 0
         previousDayButton.isEnabled = limit.creationDate.tomorrow <= limit.selectedDate
         nextDayButton.isEnabled = limit.selectedDate.tomorrow <= Date()
     }
@@ -359,6 +362,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
                 self.updateLabels()
                 self.updateTiming()
                 self.updateLoadingIndicatorProgress()
+                self.updateButtons()
             }
         }
     }
