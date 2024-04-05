@@ -67,7 +67,7 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allowing use of the camera allows adding images to logs.</string>
+	<string>Allowing use of the camera enables adding images to logs.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allowing location services will attach location information to logs.</string>
 	<key>UIApplicationSceneManifest</key>

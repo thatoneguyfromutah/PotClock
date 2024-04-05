@@ -188,11 +188,11 @@ class LimitsDataViewController: UIViewController {
                           firstText.count >= 8
                     else {
                         let alertController = UIAlertController(title: "Password Requirements Not Met", message: "Try to export the data again with a more secure password as described in the Set Password alert. Also make sure you entered the same password twice.", preferredStyle: .alert)
-                        let doneAction = UIAlertAction(title: "Try Again", style: .default)
-                        alertController.addAction(doneAction)
-                        self.present(alertController, animated: true) {
+                        let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { _ in
                             self.didTapExportLimits(sender)
                         }
+                        alertController.addAction(tryAgainAction)
+                        self.present(alertController, animated: true)
                         return
                     }
                     
