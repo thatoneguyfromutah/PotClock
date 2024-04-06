@@ -93,6 +93,11 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        tableView.setEditing(false, animated: true)
+        editBarButtonItem.title = "Edit"
+    }
+    
     // MARK: - Location
     
     func requestLocationAccess() {
