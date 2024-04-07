@@ -183,6 +183,10 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
         if isEditingLimit {
             self.limitsTableViewController.updateLimits()
