@@ -183,6 +183,10 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
+        
+        if isEditingLimit {
+            self.limitsTableViewController.updateLimits()
+        }
     }
     
     // MARK: - Editing
@@ -525,12 +529,6 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     
     @IBAction func didChangeSelectedSegment(_ segmentedControl: UISegmentedControl) {
         updateSelection()
-        if isEditingLimit {
-            present(self.limitsTableViewController.loadingViewController, animated: true) {
-                self.limitsTableViewController.updateLimits()
-                self.limitsTableViewController.loadingViewController.dismiss(animated: true)
-            }
-        }
     }
     
     @objc func didTapSave() {
@@ -624,7 +622,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                 self.limitsTableViewController.context?.delete(managedObject)
                 try? self.limitsTableViewController.context?.save()
                 self.limitsTableViewController.updateLimits()
-                
+
                 self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                     self.navigationController?.popToRootViewController(animated: true)
                 }
