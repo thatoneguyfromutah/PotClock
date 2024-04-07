@@ -320,6 +320,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         if segue.identifier == "editLimit", let editLimitViewController = segue.destination as? EditLimitViewController {
             editLimitViewController.limitToEdit = limit
             editLimitViewController.limitsTableViewController = limitsTableViewController
+            editLimitViewController.logLimitViewController = self
         }
     }
     

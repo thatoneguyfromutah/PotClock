@@ -41,6 +41,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
     var limitsTableViewController: LimitsTableViewController!
+    var logLimitViewController: LogLimitViewController!
     
     var isEditingLimit: Bool {
         return limitToEdit != nil
@@ -189,7 +190,10 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         super.viewDidDisappear(animated)
         
         if isEditingLimit {
-            self.limitsTableViewController.updateLimits()
+            logLimitViewController.present(self.limitsTableViewController.loadingViewController, animated: true) {
+                self.limitsTableViewController.updateLimits()
+                self.limitsTableViewController.loadingViewController.dismiss(animated: true)
+            }
         }
     }
     
