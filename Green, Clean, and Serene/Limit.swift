@@ -187,8 +187,8 @@ class Limit: NSObject, Codable {
     var totalPoints: Decimal {
         var toReturn: Decimal = 0
         for day in days {
-            if isValidDayForPoints(day: day) { // TODO: -
-                toReturn += unitsProgressLeftPercentageForDay(day: day) * 100
+            if day.logs.count != 0 && day.units != 0 && day.units != totalUnits && !(day.units > totalUnits) {
+                toReturn += 1 - (day.units / totalUnits)
             }
         }
         return toReturn
@@ -214,18 +214,6 @@ class Limit: NSObject, Codable {
         return day.units == totalUnits
     }
     
-    var currentDayIsValidDayForPoints: Bool {
-        return currentDay.units == totalUnits
-    }
-    
-    var selectedDayIsValidDayForPoints: Bool {
-        return selectedDay.units == totalUnits
-    }
-    
-    func isValidDayForPoints(day: Day) -> Bool {
-        return !day.logs.isEmpty && !isOverLimitForDay(day: day) && day.date < Date().startOfDay
-    }
-    
     var isOverLimitForCurrentDay: Bool {
         return currentDay.units > totalUnits
     }
@@ -236,40 +224,6 @@ class Limit: NSObject, Codable {
     
     func isOverLimitForDay(day: Day) -> Bool {
         return day.units > totalUnits
-    }
-    
-    var lastDateWentOverFromCurrent: Date? {
-        for day in days {
-            if isOverLimitForDay(day: day) {
-                let dayDifference = Calendar.current.dateComponents([.day], from: day.date, to: currentDay.date).day!
-                if !(dayDifference < 0) {
-                    return day.date
-                }
-            }
-        }
-        return nil
-    }
-    
-    var lastDateWentOverFromSelected: Date? {
-        for day in days {
-            if isOverLimitForDay(day: day) {
-                let dayDifference = Calendar.current.dateComponents([.day], from: day.date, to: selectedDay.date).day!
-                if !(dayDifference < 0) {
-                    return day.date
-                }
-            }
-        }
-        return nil
-    }
-    
-    var daysSinceRelapseFromCurrentDate: Decimal {
-        guard let date = lastDateWentOverFromCurrent else { return Decimal(Calendar.current.dateComponents([.day], from: creationDate, to: currentDay.date).day!) }
-        return Decimal(Calendar.current.dateComponents([.day], from: date, to: currentDay.date).day!)
-    }
-    
-    var daysSinceRelapseFromSelectedDate: Decimal? {
-        guard let date = lastDateWentOverFromSelected else { return Decimal(Calendar.current.dateComponents([.day], from: creationDate, to: selectedDay.date).day!) }
-        return Decimal(Calendar.current.dateComponents([.day], from: date, to: selectedDay.date).day!)
     }
     
     // MARK: - Add Days
@@ -384,10 +338,6 @@ class Limit: NSObject, Codable {
         return selectedDay.units != 0 ? selectedDay.units / totalUnits : 1
     }
     
-    func unitsProgressLeftPercentageForDay(day: Day) -> Decimal {
-        return day.units != 0 ? 1 - ( day.units / totalUnits ) : 1
-    }
-
     var currentUnitsProgressString: String {
 
         if currentUnitsProgressPercentage == 1 {

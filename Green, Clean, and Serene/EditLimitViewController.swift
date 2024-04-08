@@ -612,21 +612,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             
             self.present(self.limitsTableViewController.loadingViewController, animated: true) {
                 
-                guard let selectedItem = self.limitsTableViewController.tableView.indexPathForSelectedRow else { return }
-                
-                var managedObject: NSManagedObject?
-                switch self.limitsTableViewController.segmentedControl.selectedSegmentIndex {
-                case 0:
-                    managedObject = self.limitsTableViewController.foods[selectedItem.row].managedObject
-                case 1:
-                    managedObject = self.limitsTableViewController.drugs[selectedItem.row].managedObject
-                case 2:
-                    managedObject = self.limitsTableViewController.activities[selectedItem.row].managedObject
-                default:
-                    fatalError()
-                }
-                
-                guard let managedObject = managedObject else { return }
+                guard let managedObject = self.limitToEdit?.managedObject else { return }
                 self.limitsTableViewController.context?.delete(managedObject)
                 try? self.limitsTableViewController.context?.save()
                 self.limitsTableViewController.updateLimits()
