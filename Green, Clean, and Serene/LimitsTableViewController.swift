@@ -103,8 +103,16 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     func requestLocationAccess() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
+        #if targetEnvironment(macCatalyst)
+        locationManager?.requestLocation()
+        #else
         locationManager?.requestWhenInUseAuthorization()
+        #endif
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {}
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {}
     
     // MARK: - Game
     
