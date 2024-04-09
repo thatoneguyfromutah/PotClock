@@ -354,7 +354,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField === limitNameTextField,
-           let name = textField.text {
+           let name = textField.text,
+           name != "" {
             switch isEditingLimit {
             case true:
                 limitToEdit?.name = name
@@ -365,7 +366,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         if textField === limitUnitsTextField,
            let text = textField.text,
-           let totalUnits = Decimal(string: text) {
+           let totalUnits = Decimal(string: text),
+           totalUnits != 0 {
             switch isEditingLimit {
             case true:
                 limitToEdit?.totalUnits = totalUnits
