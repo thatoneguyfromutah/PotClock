@@ -192,6 +192,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         if isEditingLimit {
             logLimitViewController.present(self.limitsTableViewController.loadingViewController, animated: true) {
                 self.limitsTableViewController.updateLimits()
+                self.logLimitViewController.limit = self.limitsTableViewController.limits.filter {
+                    self.logLimitViewController.limit.name.contains($0.name) }.first
                 self.limitsTableViewController.loadingViewController.dismiss(animated: true)
             }
         }

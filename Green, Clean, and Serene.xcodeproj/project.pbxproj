@@ -560,7 +560,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4338;
+				CURRENT_PROJECT_VERSION = 4343;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
@@ -570,7 +570,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaseangelogiles.PotClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -589,7 +589,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4338;
+				CURRENT_PROJECT_VERSION = 4343;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
@@ -599,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaseangelogiles.PotClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
