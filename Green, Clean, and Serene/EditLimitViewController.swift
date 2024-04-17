@@ -95,7 +95,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     
     enum ButtonBackgroundColors {
         static let ActivatedColor = UIColor.systemGreen
-        static let InactiveColor = UIColor.systemGray6
+        static let InactiveColor = UIColor.systemGray5
     }
     
     enum LimitNameTextFieldPlaceholders {
@@ -136,7 +136,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             navigationItem.leftBarButtonItems = nil
             navigationItem.rightBarButtonItems = [deleteBarButtonItem]
             visualEffectView.alpha = 0
-            view.backgroundColor = .systemBackground
+            view.backgroundColor = .systemGray6
         default:
             navigationItem.rightBarButtonItems = [saveBarButtonItem]
             visualEffectView.alpha = 1
