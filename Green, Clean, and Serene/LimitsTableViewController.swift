@@ -189,7 +189,7 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
             gameBackgroundView.backgroundColor = .systemGreen
         }
         
-        gamePointsLabel.text = totalPoints == 0 ? "You Have No Points" : "You Have \(Decimal(round(1000 * Double(truncating: NSDecimalNumber(decimal: totalPoints / 100))))) Points"
+        gamePointsLabel.text = totalPoints == 0 ? "You Have No Points" : "You Have \(Int(round(1000 * Double(truncating: NSDecimalNumber(decimal: totalPoints / 100))))) Points"
     }
     
     // MARK: - Limits

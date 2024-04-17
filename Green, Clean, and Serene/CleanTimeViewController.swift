@@ -15,9 +15,7 @@ class CleanTimeViewController: UIViewController {
     @IBOutlet weak var saveBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
-    
-    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "CleanDate")
-    
+        
     var appDelegate: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
@@ -48,7 +46,7 @@ class CleanTimeViewController: UIViewController {
         
         var dates: [Date] = []
         
-        guard let cleanDates = try? context.fetch(fetchRequest) else { return }
+        guard let cleanDates = try? context.fetch(limitsTableViewController.cleanDateFetchRequest) else { return }
         
         for cleanDate in cleanDates {
             let date = cleanDate.value(forKeyPath: "date") as? Date

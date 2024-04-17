@@ -158,10 +158,10 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         }
         
         if limit.selectedUnitsProgressPercentage < 0.5 {
-            rightPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10)))) + "%"
+            rightPercentageLabel.text = String(describing: Int(round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10))))) + "%"
             leftPercentageLabel.text = nil
         } else {
-            leftPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10)))) + "%"
+            leftPercentageLabel.text = String(describing: Int(round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10))))) + "%"
             rightPercentageLabel.text = nil
         }
             
@@ -342,7 +342,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
             
         if limit.selectedUnits + lastLogDifference > limit.totalUnits {
             
-            let alertController = UIAlertController(title: "Over Limit", message: "This log puts you over your limit. Would you like to reset your clean date to the selected day? Only you know if you had the intention to go over your limit or not.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Over Limit", message: "This log puts you over your limit. Would you like to reset your clean date to the selected day? Only you plus your higher power know if you had the intention to go over your limit or not.", preferredStyle: .alert)
         
             let resetAction = UIAlertAction(title: "Reset Date", style: .destructive) { _ in
                 
