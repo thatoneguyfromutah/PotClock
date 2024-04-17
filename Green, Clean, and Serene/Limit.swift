@@ -187,7 +187,7 @@ class Limit: NSObject, Codable {
     var totalPoints: Decimal {
         var toReturn: Decimal = 0
         for day in days {
-            if day.logs.count != 0 && day.units != 0 && day.units != totalUnits && !(day.units > totalUnits) {
+            if day.logs.count != 0 && day.units != 0 && day.units != totalUnits && day.date < Date().startOfDay {
                 toReturn += 1 - (day.units / totalUnits)
             }
         }

@@ -158,10 +158,10 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         }
         
         if limit.selectedUnitsProgressPercentage < 0.5 {
-            rightPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage))) / 10) + "%"
+            rightPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10)))) + "%"
             leftPercentageLabel.text = nil
         } else {
-            leftPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage))) / 10) + "%"
+            leftPercentageLabel.text = String(describing: round(1000 * Double(truncating: NSDecimalNumber(decimal: limit.selectedUnitsProgressPercentage / 10)))) + "%"
             rightPercentageLabel.text = nil
         }
             
@@ -328,10 +328,63 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
         
     func saveCurrentLog() {
         
-        if lastLogDifference == 0 { return }
+        if lastLogDifference == 0 {
             
-        self.present(limitsTableViewController.loadingViewController, animated: true) {
+            let alertController = UIAlertController(title: "Error", message: "Log amount must not be zero.", preferredStyle: .alert)
+        
+            let cancelAction = UIAlertAction(title: "Done", style: .default)
+            alertController.addAction(cancelAction)
+        
+            self.present(alertController, animated: true)
             
+            return
+        }
+            
+        if limit.selectedUnits + lastLogDifference > limit.totalUnits {
+            
+            let alertController = UIAlertController(title: "Over Limit", message: "This log puts you over your limit. Would you like to reset your clean date to the selected day? Only you know if you had the intention to go over your limit or not.", preferredStyle: .alert)
+        
+            let resetAction = UIAlertAction(title: "Reset Date", style: .destructive) { _ in
+                
+                guard let entity = NSEntityDescription.entity(forEntityName: "CleanDate", in: self.context!) else { return }
+                
+                let storedCleanDate = NSManagedObject(entity: entity, insertInto: self.context)
+                storedCleanDate.setValue(self.selectedDate, forKey: "date")
+                
+                do {
+                    
+                    try self.context!.save()
+                    self.addLogAndReload()
+                    
+                } catch let error {
+                    
+                    let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                
+                    let cancelAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(cancelAction)
+                
+                    self.present(alertController, animated: true)
+                }
+            }
+            alertController.addAction(resetAction)
+            
+            let keepAction = UIAlertAction(title: "Keep Date", style: .default) { _ in
+                self.addLogAndReload()
+            }
+            alertController.addAction(keepAction)
+        
+            self.present(alertController, animated: true)
+            
+            return
+        }
+        
+        addLogAndReload()
+    }
+    
+    func addLogAndReload() {
+        
+        self.present(self.limitsTableViewController.loadingViewController, animated: true) {
+
             var log: Log
 
             if self.lastLogDifference > 0,

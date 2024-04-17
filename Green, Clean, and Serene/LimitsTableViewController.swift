@@ -14,8 +14,9 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
 
     // MARK: - Properties
     
-    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "StoredLimit")
-    
+    let limitFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "StoredLimit")
+    let cleanDateFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "CleanDate")
+
     var limits: [Limit] = []
     var foods: [Limit] = []
     var drugs: [Limit] = []
@@ -24,8 +25,8 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var gameBackgroundView: UIView!
-    @IBOutlet weak var gameDaysTextView: UITextView!
-    @IBOutlet weak var gamePointsTextView: UITextView!
+    @IBOutlet weak var gameDaysLabel: UILabel!
+    @IBOutlet weak var gamePointsLabel: UILabel!
     
     let defaults = UserDefaults.standard
     var locationManager: CLLocationManager?
@@ -118,8 +119,54 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     
     func updateGame() {
         
+        var dates: [Date] = []
+        
+        guard let cleanDates = try? context?.fetch(cleanDateFetchRequest) else { return }
+
+        for cleanDate in cleanDates {
+            guard let date = cleanDate.value(forKeyPath: "date") as? Date else { continue }
+            dates.append(date)
+        }
+
+        if dates.last == nil {
+
+            guard let entity = NSEntityDescription.entity(forEntityName: "CleanDate", in: self.context!) else { return }
+
+            let storedCleanDate = NSManagedObject(entity: entity, insertInto: context)
+            storedCleanDate.setValue(Date(), forKey: "date")
+
+            do {
+                try context?.save()
+                updateGame()
+                return
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        
+        let startDateComponents = Calendar.current.dateComponents([.year, .month, .weekOfYear, .day], from: dates.last!.startOfDay)
+        let endDateComponents = Calendar.current.dateComponents([.year, .month, .weekOfYear, .day], from: Date().startOfDay)
+        
+        let numberOfDays = Calendar.current.dateComponents([.day], from: startDateComponents, to: endDateComponents).day!
+        let numberOfWeeks = Calendar.current.dateComponents([.weekOfYear], from: startDateComponents, to: endDateComponents).weekOfYear!
+        let numberOfMonths = Calendar.current.dateComponents([.month], from: startDateComponents, to: endDateComponents).month!
+        let numberOfYears = Calendar.current.dateComponents([.year], from: startDateComponents, to: endDateComponents).year!
+        
+        if numberOfYears != 0 {
+            gameDaysLabel.text = "\(numberOfYears) \(numberOfYears == 1 ? "Year" : "Years")"
+        } else if numberOfMonths != 0 {
+            gameDaysLabel.text = "\(numberOfMonths) \(numberOfMonths == 1 ? "Month" : "Months")"
+        } else if numberOfWeeks != 0 {
+            gameDaysLabel.text = "\(numberOfWeeks) \(numberOfWeeks == 1 ? "Week" : "Weeks")"
+        } else if numberOfDays != 0 {
+            gameDaysLabel.text = "\(numberOfDays) \(numberOfDays == 1 ? "Day" : "Days")"
+        } else {
+            gameDaysLabel.text = "No Days"
+        }
+    
         var atLimitEnabled: Bool = false
         var overLimitEnabled: Bool = false
+        var totalPoints: Decimal = 0
         
         for limit in limits {
             
@@ -130,11 +177,10 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
             if limit.isOverLimitForCurrentDay {
                 overLimitEnabled = true
             }
+            
+            totalPoints += limit.totalPoints
         }
         
-        gameDaysTextView.text = "# Days"
-        gamePointsTextView.text = "You Have No Points"
-            
         if (atLimitEnabled && overLimitEnabled || !atLimitEnabled && overLimitEnabled) {
             gameBackgroundView.backgroundColor = .systemRed
         } else if atLimitEnabled && !overLimitEnabled {
@@ -142,6 +188,8 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         } else {
             gameBackgroundView.backgroundColor = .systemGreen
         }
+        
+        gamePointsLabel.text = totalPoints == 0 ? "You Have No Points" : "You Have \(Decimal(round(1000 * Double(truncating: NSDecimalNumber(decimal: totalPoints / 100))))) Points"
     }
     
     // MARK: - Limits
@@ -154,7 +202,7 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Iterate Through Stored Limits
         
-        guard let limitsInStorage = try? context?.fetch(fetchRequest) else { return }
+        guard let limitsInStorage = try? context?.fetch(limitFetchRequest) else { return }
         
         for limitInStorage in limitsInStorage {
             
@@ -421,6 +469,11 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
             
             logLimitViewController.limit = limit
             logLimitViewController.limitsTableViewController = self
+        }
+        
+        if segue.identifier == "toCleanTime", let cleanTimeViewController = segue.destination as? CleanTimeViewController {
+            
+            cleanTimeViewController.limitsTableViewController = self
         }
     }
 

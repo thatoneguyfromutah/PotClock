@@ -146,6 +146,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         // Buttons
         
         updateDateButtons()
+        updateSaveButton()
         
         // Text Fields
         
@@ -155,7 +156,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         updateSelection()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -358,9 +359,24 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         if textField === limitNameTextField,
            let name = textField.text,
            name != "" {
+            
             switch isEditingLimit {
             case true:
+                
+                if self.limitsTableViewController.limits.filter({ $0.name.contains(name) }).count > 0 {
+                    
+                    let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
+
+                    let cancelAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(cancelAction)
+
+                    present(alertController, animated: true)
+                    
+                    return
+                }
+                
                 limitToEdit?.name = name
+                
             default:
                 newLimit.name = name
             }
@@ -379,6 +395,8 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                 newLimit.currentDay.limit = totalUnits
             }
         }
+        
+        updateSaveButton()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -400,6 +418,10 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     func updateButtonColors(button: UIButton, active: Bool) {
         button.backgroundColor = active ? ButtonBackgroundColors.ActivatedColor : ButtonBackgroundColors.InactiveColor
         button.tintColor = active ? ButtonForegroundColors.ActivatedColor : ButtonForegroundColors.InactiveColor
+    }
+    
+    func updateSaveButton() {
+        saveBarButtonItem.isEnabled = (limitNameTextField.text != "" && limitUnitsTextField.text != "") && (limitNameTextField.text != nil && limitUnitsTextField.text != nil)
     }
     
     func updateMeasurementButtons() {
@@ -553,56 +575,19 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             for limit in limitsTableViewController.limits {
                 
                 if newLimit.name.lowercased() == limit.name.lowercased() {
-
+                    
                     let alertController = UIAlertController(title: "Error", message: "\(limit.name) already exists, please pick another name.", preferredStyle: .alert)
-
+                    
                     let cancelAction = UIAlertAction(title: "Done", style: .default)
                     alertController.addAction(cancelAction)
-
+                    
                     present(alertController, animated: true)
-
+                    
                     return
                 }
             }
             
             performSegue(withIdentifier: "saveLimit", sender: self)
-            
-            return
-        }
-        
-        
-        if (limitNameTextField.text == nil || limitNameTextField.text == "") && (limitUnitsTextField.text == nil || limitUnitsTextField.text == "") {
-            
-            let alertController = UIAlertController(title: "Error", message: "Limit name and units need to have values.", preferredStyle: .alert)
-
-            let cancelAction = UIAlertAction(title: "Done", style: .default)
-            alertController.addAction(cancelAction)
-
-            present(alertController, animated: true)
-            
-            return
-        }
-        
-        if limitNameTextField.text == nil || limitNameTextField.text == "" {
-            
-            let alertController = UIAlertController(title: "Error", message: "Limit name needs to have a value.", preferredStyle: .alert)
-
-            let cancelAction = UIAlertAction(title: "Done", style: .default)
-            alertController.addAction(cancelAction)
-
-            present(alertController, animated: true)
-            
-            return
-        }
-        
-        if limitUnitsTextField.text == nil || limitUnitsTextField.text == "" {
-            
-            let alertController = UIAlertController(title: "Error", message: "Limit units needs to have a value.", preferredStyle: .alert)
-
-            let cancelAction = UIAlertAction(title: "Done", style: .default)
-            alertController.addAction(cancelAction)
-
-            present(alertController, animated: true)
             
             return
         }

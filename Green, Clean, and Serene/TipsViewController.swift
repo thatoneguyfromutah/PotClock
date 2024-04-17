@@ -8,9 +8,8 @@
 import UIKit
 import StoreKit
 import CoreData
-import MessageUI
 
-class TipsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, SKPaymentTransactionObserver {
+class TipsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SKPaymentTransactionObserver {
 
     // MARK: - Properties
     
@@ -223,18 +222,16 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
                 case .onehundred:
                     newTip = Tip(amount: 100, date: Date())
                 }
+                                
+                guard let entity = NSEntityDescription.entity(forEntityName: "StoredTip", in: context) else { return }
                 
-                let managedContext = appDelegate.persistentContainer.viewContext
-                
-                guard let entity = NSEntityDescription.entity(forEntityName: "StoredTip", in: managedContext) else { return }
-                
-                let storedTip = NSManagedObject(entity: entity, insertInto: managedContext)
+                let storedTip = NSManagedObject(entity: entity, insertInto: context)
                 storedTip.setValue(String(describing: newTip!.amount), forKey: "amount")
                 storedTip.setValue(newTip!.date, forKey: "date")
                 
                 do {
                 
-                    try managedContext.save()
+                    try context.save()
                     updateTips()
                 
                 } catch let error {
