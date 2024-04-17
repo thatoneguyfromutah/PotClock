@@ -115,9 +115,9 @@ class CleanTimeViewController: UIViewController {
     
     @IBAction func saveButtonTapped(sender: UIBarButtonItem) {
         
-        if selectedDate! > Date() {
+        if selectedDate!.startOfDay > Date().startOfDay {
             
-            let alertController = UIAlertController(title: "Error", message: "Unable to set future clean dates. Why not start today?", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Error", message: "Unable to set a future clean date. Why not start today?", preferredStyle: .alert)
         
             let cancelAction = UIAlertAction(title: "Done", style: .default)
             alertController.addAction(cancelAction)
@@ -127,7 +127,7 @@ class CleanTimeViewController: UIViewController {
             return
         }
         
-        present(limitsTableViewController!.loadingViewController, animated: true) {
+        present(limitsTableViewController.loadingViewController, animated: true) {
             
             guard let entity = NSEntityDescription.entity(forEntityName: "CleanDate", in: self.context) else { return }
             
@@ -139,7 +139,7 @@ class CleanTimeViewController: UIViewController {
                 try self.context.save()
                 
                 self.limitsTableViewController.updateGame()
-                self.limitsTableViewController!.loadingViewController.dismiss(animated: true) {
+                self.limitsTableViewController.loadingViewController.dismiss(animated: true) {
                     self.dismiss(animated: true)
                 }
                 

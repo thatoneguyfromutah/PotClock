@@ -75,7 +75,7 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         
         if !userHasBeenNotified {
             
-            let alertController = UIAlertController(title: "User Agreement", message: "I have read and agree to the content in the privacy policy (to be found on the App Store page listing and on the Tips page), I am above 13 years of age, and of age to consume medical cannabis in a country or region in which it is legal.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "User Agreement", message: "You have read and agree to the content in the privacy policy (to be found on the App Store page listing and on the Tips page), you are above 13 years of age, and of age to consume medical cannabis in a country or region in which it is legal for you to do so.", preferredStyle: .alert)
             
             let acceptAction = UIAlertAction(title: "Confirm", style: .default) { action in
                 self.defaults.setValue(true, forKey: "UserAgreementAlert")
@@ -153,13 +153,13 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         let numberOfYears = Calendar.current.dateComponents([.year], from: startDateComponents, to: endDateComponents).year!
         
         if numberOfYears != 0 {
-            gameDaysLabel.text = "\(numberOfYears) \(numberOfYears == 1 ? "Year" : "Years")"
+            gameDaysLabel.text = "\(numberOfYears) \(numberOfYears == 1 || numberOfYears == -1 ? "Year" : "Years")"
         } else if numberOfMonths != 0 {
-            gameDaysLabel.text = "\(numberOfMonths) \(numberOfMonths == 1 ? "Month" : "Months")"
+            gameDaysLabel.text = "\(numberOfMonths) \(numberOfMonths == 1 || numberOfMonths == -1 ? "Month" : "Months")"
         } else if numberOfWeeks != 0 {
-            gameDaysLabel.text = "\(numberOfWeeks) \(numberOfWeeks == 1 ? "Week" : "Weeks")"
+            gameDaysLabel.text = "\(numberOfWeeks) \(numberOfWeeks == 1 || numberOfWeeks == -1 ? "Week" : "Weeks")"
         } else if numberOfDays != 0 {
-            gameDaysLabel.text = "\(numberOfDays) \(numberOfDays == 1 ? "Day" : "Days")"
+            gameDaysLabel.text = "\(numberOfDays) \(numberOfDays == 1 || numberOfDays == -1 ? "Day" : "Days")"
         } else {
             gameDaysLabel.text = "No Days"
         }
