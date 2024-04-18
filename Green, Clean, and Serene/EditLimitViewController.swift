@@ -194,7 +194,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
             logLimitViewController.present(self.limitsTableViewController.loadingViewController, animated: true) {
                 self.limitsTableViewController.updateLimits()
                 self.logLimitViewController.limit = self.limitsTableViewController.limits.filter {
-                    self.logLimitViewController.limit.name == $0.name }.first
+                    self.logLimitViewController.limit.name.lowercased() == $0.name.lowercased() }.first
                 self.limitsTableViewController.loadingViewController.dismiss(animated: true)
             }
         }

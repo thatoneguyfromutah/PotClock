@@ -282,7 +282,7 @@ class LimitsDataViewController: UIViewController {
                         
                         if allSavedLimits.contains(where: { savedLimit in
                             
-                            return limitToImport.name == savedLimit.name
+                            return limitToImport.name.lowercased() == savedLimit.name.lowercased()
                             
                         }) {
                             
