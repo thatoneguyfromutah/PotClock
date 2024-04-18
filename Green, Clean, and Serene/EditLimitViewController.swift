@@ -683,13 +683,13 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         let alertController = UIAlertController(title: "Units Name", message: "Type in a custom name for your units of measurement here.", preferredStyle: .alert)
         alertController.addTextField()
         
+        guard let textField = alertController.textFields?.first else { return }
+        
+        textField.autocapitalizationType = .words
+        
         let submitAction = UIAlertAction(title: "Save", style: .default) { _ in
             
-            guard let textField = alertController.textFields?.first,
-                  let text = textField.text, text != ""
-            else {
-                return
-            }
+            guard let text = textField.text, text != "" else { return }
             
             self.unitName = text
             self.selectedMeasurementUnit = .custom
