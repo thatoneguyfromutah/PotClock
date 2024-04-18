@@ -405,15 +405,49 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         if textField === limitUnitsTextField,
            let text = textField.text,
-           let totalUnits = Decimal(string: text),
-           totalUnits != 0 {
+           let totalUnits = Decimal(string: text) {
             switch isEditingLimit {
             case true:
-                limitToEdit?.totalUnits = totalUnits
-                limitToEdit?.currentDay.limit = totalUnits
+                
+                if totalUnits == 0 {
+                    
+                    let alertController = UIAlertController(title: "Error", message: "Your limit amount per period must be more than zero.", preferredStyle: .alert)
+                    
+                    let cancelAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(cancelAction)
+                    
+                    present(alertController, animated: true)
+                    
+                    limitToEdit?.totalUnits = 1
+                    limitUnitsTextField.text = "\(limitToEdit!.totalUnits)"
+                    limitToEdit?.currentDay.limit = limitToEdit?.totalUnits
+                    
+                } else {
+                    
+                    limitToEdit?.totalUnits = totalUnits
+                    limitToEdit?.currentDay.limit = limitToEdit?.totalUnits
+                }
+                
             default:
-                newLimit.totalUnits = totalUnits
-                newLimit.currentDay.limit = totalUnits
+                
+                if totalUnits == 0 {
+                    
+                    let alertController = UIAlertController(title: "Error", message: "Your limit amount per period must be more than zero.", preferredStyle: .alert)
+                    
+                    let cancelAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(cancelAction)
+                    
+                    present(alertController, animated: true)
+                    
+                    newLimit.totalUnits = 1
+                    limitUnitsTextField.text = "\(newLimit.totalUnits)"
+                    newLimit.currentDay.limit = newLimit.totalUnits
+
+                } else {
+                    
+                    newLimit.totalUnits = totalUnits
+                    newLimit.currentDay.limit = newLimit.totalUnits
+                }
             }
         }
         
