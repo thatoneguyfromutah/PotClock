@@ -472,7 +472,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     }
     
     func updateSaveButton() {
-        saveBarButtonItem.isEnabled = (limitNameTextField.text != "" && limitUnitsTextField.text != "") && (limitNameTextField.text != nil && limitUnitsTextField.text != nil)
+        saveBarButtonItem?.isEnabled = (limitNameTextField.text != "" && limitUnitsTextField.text != "") && (limitNameTextField.text != nil && limitUnitsTextField.text != nil)
     }
     
     func updateMeasurementButtons() {

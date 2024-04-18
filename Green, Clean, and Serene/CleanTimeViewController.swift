@@ -118,7 +118,7 @@ class CleanTimeViewController: UIViewController {
             selectedDate = sender.date
         }
         
-        saveBarButtonItem.isEnabled = selectedDate != initialDate
+        saveBarButtonItem.isEnabled = selectedDate?.startOfDay != initialDate?.startOfDay
         updateLabel(withDate: selectedDate!)
         updateDatePicker(withDate: selectedDate!)
     }
