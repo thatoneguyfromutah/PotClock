@@ -646,7 +646,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
         
-        let alertController = UIAlertController(title: "Unit Names", message: "Type in a custom name for your units of measurement here.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Units Name", message: "Type in a custom name for your units of measurement here.", preferredStyle: .alert)
         alertController.addTextField()
         
         let submitAction = UIAlertAction(title: "Save", style: .default) { _ in
