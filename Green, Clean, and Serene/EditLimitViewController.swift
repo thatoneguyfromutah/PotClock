@@ -418,9 +418,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                     
                     present(alertController, animated: true)
                     
-                    limitToEdit?.totalUnits = 1
                     limitUnitsTextField.text = "\(limitToEdit!.totalUnits)"
-                    limitToEdit?.currentDay.limit = limitToEdit?.totalUnits
                     
                 } else {
                     
@@ -439,9 +437,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                     
                     present(alertController, animated: true)
                     
-                    newLimit.totalUnits = 1
                     limitUnitsTextField.text = "\(newLimit.totalUnits)"
-                    newLimit.currentDay.limit = newLimit.totalUnits
 
                 } else {
                     
