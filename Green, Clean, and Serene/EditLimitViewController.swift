@@ -361,24 +361,45 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
            name != "" {
             
             switch isEditingLimit {
-            case true:
                 
-                if self.limitsTableViewController.limits.filter({ $0.name.contains(name) }).count > 0 {
+            case true:
+                                
+                if limitToEdit?.name != name {
                     
-                    let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
-
-                    let cancelAction = UIAlertAction(title: "Done", style: .default)
-                    alertController.addAction(cancelAction)
-
-                    present(alertController, animated: true)
-                    
-                    return
+                    if self.limitsTableViewController.limits.filter({ $0.name == name }).count > 0 {
+                        
+                        let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
+                        
+                        let cancelAction = UIAlertAction(title: "Done", style: .default)
+                        alertController.addAction(cancelAction)
+                        
+                        present(alertController, animated: true)
+                        
+                        self.limitNameTextField.text = self.limitToEdit?.name
+                        
+                    } else {
+                        
+                        limitToEdit?.name = name
+                    }
                 }
                 
-                limitToEdit?.name = name
+            case false:
                 
-            default:
-                newLimit.name = name
+                if self.limitsTableViewController.limits.filter({ $0.name == name }).count > 0 {
+                    
+                    let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
+                    
+                    let cancelAction = UIAlertAction(title: "Done", style: .default)
+                    alertController.addAction(cancelAction)
+                    
+                    present(alertController, animated: true)
+                    
+                    self.limitNameTextField.text = self.newLimit.name
+                    
+                } else {
+                    
+                    newLimit.name = name
+                }
             }
         }
         
@@ -571,24 +592,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitUnitsTextField.resignFirstResponder()
         
         if !(limitNameTextField.text == nil || limitNameTextField.text == "") && !(limitUnitsTextField.text == nil || limitUnitsTextField.text == "") {
-            
-            for limit in limitsTableViewController.limits {
-                
-                if newLimit.name.lowercased() == limit.name.lowercased() {
-                    
-                    let alertController = UIAlertController(title: "Error", message: "\(limit.name) already exists, please pick another name.", preferredStyle: .alert)
-                    
-                    let cancelAction = UIAlertAction(title: "Done", style: .default)
-                    alertController.addAction(cancelAction)
-                    
-                    present(alertController, animated: true)
-                    
-                    return
-                }
-            }
-            
             performSegue(withIdentifier: "saveLimit", sender: self)
-            
             return
         }
     }

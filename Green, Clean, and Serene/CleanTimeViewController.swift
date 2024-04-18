@@ -101,7 +101,23 @@ class CleanTimeViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func datePickerDidPickDate(sender: UIDatePicker) {
-        selectedDate = sender.date
+        
+        if sender.date.startOfDay > Date().startOfDay {
+                        
+            let alertController = UIAlertController(title: "Error", message: "Unable to set a future clean date. Why not start your recovery today?", preferredStyle: .alert)
+        
+            let cancelAction = UIAlertAction(title: "Done", style: .default)
+            alertController.addAction(cancelAction)
+        
+            present(alertController, animated: true)
+            
+            selectedDate = Date()
+
+        } else {
+            
+            selectedDate = sender.date
+        }
+        
         saveBarButtonItem.isEnabled = selectedDate != initialDate
         updateLabel(withDate: selectedDate!)
         updateDatePicker(withDate: selectedDate!)
@@ -112,18 +128,6 @@ class CleanTimeViewController: UIViewController {
     }
     
     @IBAction func saveButtonTapped(sender: UIBarButtonItem) {
-        
-        if selectedDate!.startOfDay > Date().startOfDay {
-            
-            let alertController = UIAlertController(title: "Error", message: "Unable to set a future clean date. Why not start today?", preferredStyle: .alert)
-        
-            let cancelAction = UIAlertAction(title: "Done", style: .default)
-            alertController.addAction(cancelAction)
-        
-            present(alertController, animated: true)
-            
-            return
-        }
         
         present(limitsTableViewController.loadingViewController, animated: true) {
             
