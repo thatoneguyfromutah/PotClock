@@ -366,7 +366,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                                 
                 if limitToEdit?.name != name {
                     
-                    if self.limitsTableViewController.limits.filter({ $0.name == name }).count > 0 {
+                    if self.limitsTableViewController.limits.filter({ $0.name.lowercased() == name.lowercased() }).count > 0 {
                         
                         let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
                         
@@ -385,7 +385,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
                 
             case false:
                 
-                if self.limitsTableViewController.limits.filter({ $0.name == name }).count > 0 {
+                if self.limitsTableViewController.limits.filter({ $0.name.lowercased() == name.lowercased() }).count > 0 {
                     
                     let alertController = UIAlertController(title: "Error", message: "\(name) already exists, please pick another name.", preferredStyle: .alert)
                     

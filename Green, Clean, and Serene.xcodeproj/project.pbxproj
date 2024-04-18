@@ -564,7 +564,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4385;
+				CURRENT_PROJECT_VERSION = 4387;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
@@ -593,7 +593,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Green, Clean, and Serene/Green, Clean, and Serene.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4385;
+				CURRENT_PROJECT_VERSION = 4387;
 				DEVELOPMENT_TEAM = 65DA2F438H;
 				INFOPLIST_FILE = "Green, Clean, and Serene/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PotClock;
