@@ -95,8 +95,8 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     
     func updateButtons() {
         reduceButton.isEnabled = limit.selectedUnits != 0
-        previousDayButton.isEnabled = limit.creationDate.tomorrow <= limit.selectedDate
-        nextDayButton.isEnabled = limit.selectedDate.tomorrow <= Date()
+        previousDayButton.isEnabled = limit.creationDate.tomorrow.startOfDay <= limit.selectedDate.startOfDay
+        nextDayButton.isEnabled = limit.selectedDate.startOfDay.tomorrow <= Date()
     }
     
     func updateLabels() {
@@ -106,7 +106,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     func updateTiming() {
-        let date = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate)
+        let date = Calendar.current.dateComponents([.month, .day, .year], from: selectedDate.startOfDay)
         let dateString = "\(date.month!)/\(date.day!)/\(date.year!)"
         timeLabel.text = dateString
     }
@@ -310,7 +310,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     // MARK: - Date Picker
     
     @objc func dateChanged(_ sender: UIDatePicker) {
-        selectedDate = sender.date
+        selectedDate = sender.date.startOfDay
     }
     
     // MARK: - Navigation
@@ -542,7 +542,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     @IBAction func didTapLastPeriod(_ sender: UIButton) {
-        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate)!
+        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate.startOfDay)!
         updateLabels()
         updateTiming()
         updateLoadingIndicatorProgress()
@@ -551,7 +551,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     @IBAction func didTapNextPeriod(_ sender: UIButton) {
-        selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate)!
+        selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate.startOfDay)!
         updateLabels()
         updateTiming()
         updateLoadingIndicatorProgress()

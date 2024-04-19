@@ -51,16 +51,18 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     var newLimit = Limit(creationDate: Date(), managedObject: nil, context: nil, category: .food, name: "", unitsName: "Meals", totalUnits: Decimal(1), timing: .daily, days: [], iconName: "")
     
     var selectedMeasurementUnit: LimitUnitNames = .first
-    var selectedDate: Timing = .daily {
+    
+    var selectedTiming: Timing = .daily {
         didSet {
             switch isEditingLimit {
             case true:
-                limitToEdit?.timing = selectedDate
+                limitToEdit?.timing = selectedTiming
             default:
-                newLimit.timing = selectedDate
+                newLimit.timing = selectedTiming
             }
         }
     }
+    
     var unitName: String = "Meals" {
         didSet {
             switch isEditingLimit {
@@ -267,7 +269,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         
         // Set timing
         
-        selectedDate = limitToEdit.timing
+        selectedTiming = limitToEdit.timing
         
         // Set icon
         
@@ -555,7 +557,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
     }
     
     func updateDateButtons() {
-        switch selectedDate {
+        switch selectedTiming {
         case .daily:
             updateButtonColors(button: dailyButton, active: true)
             updateButtonColors(button: weeklyButton, active: false)
@@ -708,7 +710,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
         
-        selectedDate = .daily
+        selectedTiming = .daily
         updateDateButtons()
     }
     
@@ -717,7 +719,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
         
-        selectedDate = .weekly
+        selectedTiming = .weekly
         updateDateButtons()
     }
     
@@ -726,7 +728,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
         
-        selectedDate = .monthly
+        selectedTiming = .monthly
         updateDateButtons()
     }
     
@@ -735,7 +737,7 @@ class EditLimitViewController: UIViewController, UITextFieldDelegate, UICollecti
         limitNameTextField.resignFirstResponder()
         limitUnitsTextField.resignFirstResponder()
         
-        selectedDate = .yearly
+        selectedTiming = .yearly
         updateDateButtons()
     }
 }

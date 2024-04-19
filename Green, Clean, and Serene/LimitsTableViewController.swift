@@ -449,8 +449,12 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "createLimit", let navigationController = segue.destination as? UINavigationController, let editLimitViewController = navigationController.viewControllers.first as? EditLimitViewController {
+            
             editLimitViewController.limitsTableViewController = self
             editLimitViewController.segmentedControl.selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+            
+            tableView.setEditing(false, animated: true)
+            editBarButtonItem.title = "Edit"
         }
         
         if segue.identifier == "showLimit", let logLimitViewController = segue.destination as? LogLimitViewController, let selectedIndex = tableView.indexPathForSelectedRow?.row {
@@ -474,6 +478,9 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
         if segue.identifier == "toCleanTime", let cleanTimeViewController = segue.destination as? CleanTimeViewController {
             
             cleanTimeViewController.limitsTableViewController = self
+            
+            tableView.setEditing(false, animated: true)
+            editBarButtonItem.title = "Edit"
         }
     }
 
@@ -501,6 +508,7 @@ class LimitsTableViewController: UITableViewController, CLLocationManagerDelegat
             self.present(alertController, animated: true)
             
         } else{
+            
             self.tableView.setEditing(false, animated: true)
             sender.title = "Edit"
         }
