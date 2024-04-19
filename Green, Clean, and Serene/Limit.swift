@@ -140,14 +140,6 @@ class Limit: NSObject, Codable {
         }
     }
     
-    var currentDayUnitsLoggedString: String {
-        return String(describing: currentDay.units)
-    }
-    
-    var selectedDayUnitsLoggedString: String {
-        return String(describing: selectedDay.units)
-    }
-    
     var totalUnitsString: String {
         return String(describing: totalUnits)
     }
@@ -164,7 +156,7 @@ class Limit: NSObject, Codable {
             days = []
         }
 
-        addDayToDays(day: Day(date: selectedDate, logs: [], limit: totalUnits))
+        addDayToDays(day: Day(date: Date(), logs: [], limit: totalUnits))
         return days[days.count - 1]
     }
     
