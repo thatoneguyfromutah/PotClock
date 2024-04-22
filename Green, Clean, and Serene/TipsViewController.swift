@@ -302,6 +302,16 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
         gitRepositoryAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alertController.addAction(gitRepositoryAction)
         
+        let angelShortcutAction = UIAlertAction(title: "Angel Shortcut", style: .default) { action in
+            guard let url = URL(string: "https://www.icloud.com/shortcuts/6e680aa8764a49ebbd7565c4c814219c") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        angelShortcutAction.setValue(UIImage(systemName: "star"), forKey: "image")
+        angelShortcutAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alertController.addAction(angelShortcutAction)
+        
         let twitterAction = UIAlertAction(title: "Twitter by X", style: .default) { action in
             guard let url = URL(string: "https://twitter.com/PotClock") else { return }
             if UIApplication.shared.canOpenURL(url) {
