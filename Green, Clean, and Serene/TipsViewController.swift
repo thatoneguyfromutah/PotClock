@@ -286,6 +286,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: "https://www.iubenda.com/privacy-policy/15364850") else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         privacyPolicyAction.setValue(UIImage(systemName: "doc.text"), forKey: "image")
@@ -296,6 +301,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: "https://github.com/thatoneguyfromutah/PotClock") else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         gitRepositoryAction.setValue(UIImage(systemName: "externaldrive"), forKey: "image")
@@ -306,6 +316,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: "https://www.icloud.com/shortcuts/6e680aa8764a49ebbd7565c4c814219c") else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         angelShortcutAction.setValue(UIImage(systemName: "star"), forKey: "image")
@@ -316,6 +331,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: "https://twitter.com/PotClock") else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         twitterAction.setValue(UIImage(systemName: "x.square"), forKey: "image")
@@ -326,6 +346,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: "https://www.reddit.com/r/greencleanandserene/") else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         redditAction.setValue(UIImage(systemName: "person.2"), forKey: "image")
@@ -339,6 +364,11 @@ class TipsViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
+            } else {
+                let canNotOpenAlert = UIAlertController(title: "Error", message: "Unable to open link.", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "Done", style: .default)
+                canNotOpenAlert.addAction(doneAction)
+                self.present(canNotOpenAlert, animated: true)
             }
         }
         settingsAction.setValue(UIImage(systemName: "gearshape"), forKey: "image")
