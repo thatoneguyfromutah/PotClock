@@ -1,6 +1,6 @@
 //
 //  LimitTableViewCell.swift
-//  Green, Clean, and Serene
+//  PotClock
 //
 //  Created by Chase Angelo Giles on 11/7/23.
 //

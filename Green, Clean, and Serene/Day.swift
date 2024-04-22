@@ -1,6 +1,6 @@
 //
 //  Day.swift
-//  Green, Clean, and Serene
+//  PotClock
 //
 //  Created by Chase Angelo Giles on 12/3/23.
 //

@@ -1,6 +1,6 @@
 //
 //  LogLimitViewController.swift
-//  Green, Clean, and Serene
+//  PotClock
 //
 //  Created by Chase Angelo Giles on 11/7/23.
 //
@@ -96,7 +96,7 @@ class LogLimitViewController: UIViewController, UITextFieldDelegate, UITableView
     func updateButtons() {
         reduceButton.isEnabled = limit.selectedUnits != 0
         previousDayButton.isEnabled = limit.creationDate.tomorrow.startOfDay <= limit.selectedDate.startOfDay
-        nextDayButton.isEnabled = limit.selectedDate.startOfDay.tomorrow <= Date()
+        nextDayButton.isEnabled = limit.selectedDate.tomorrow.startOfDay <= Date().startOfDay
     }
     
     func updateLabels() {

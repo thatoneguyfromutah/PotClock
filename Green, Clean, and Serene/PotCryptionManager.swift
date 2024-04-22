@@ -1,3 +1,10 @@
+//
+//  PotCryptionManager.swift
+//  PotClock
+//
+//  Created by Chase Angelo Giles.
+//
+
 import UIKit
 import Foundation
 import UniformTypeIdentifiers
